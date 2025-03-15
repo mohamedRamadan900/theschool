@@ -1,0 +1,10 @@
+<main class="flex flex-col w-full h-full">
+    <app-summary-stats></app-summary-stats>
+    <hr />
+    <section class="flex flex-row flex-wrap gap-5 ">
+        <app-stacked-bar-chart [chartConfig]="barChartConfig"></app-stacked-bar-chart>
+        <div class="flex flex-col justify-between">
+            <app-pie-chart [pieChartConfig]="pieChartData"></app-pie-chart>
+        </div>
+    </section>
+</main>

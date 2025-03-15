@@ -1,0 +1,21 @@
+<div class="h-full flex flex-col gap-2">
+    <app-card>
+        <div class="h-full flex items-center justify-center">
+            <div class="flex flex-col items-center gap-1">
+                <div class="text-2xl font-semibold" [class.text-primary]="highlight()">
+                    {{ primaryValue() }}
+                </div>
+                <div class="text-sm text-center">{{ primaryLabel() }}</div>
+            </div>
+        </div>
+    </app-card>
+    @if (secondaryValue()) {
+        <app-card [hidePadding]="true">
+            <div class="px-4 py-2">
+                <div class="flex flex-col items-center">
+                    <div class="text-lg ">{{ secondaryValue() }}</div>
+                </div>
+            </div>
+        </app-card>
+    }
+</div>

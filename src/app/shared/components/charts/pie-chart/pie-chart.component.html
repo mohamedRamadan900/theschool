@@ -1,0 +1,13 @@
+<app-card [title]="title">
+    <div class="chart-container">
+        <canvas #chartCanvas></canvas>
+
+        <!-- Optional Legend -->
+        <div *ngIf="labels?.length && labels.length > 0" class="chart-legend">
+            <div *ngFor="let label of labels; let i = index" class="legend-item" [class.selected]="selectedIndex === i" (click)="onLegendItemClick(i)">
+                <span class="color-box" [style.background-color]="currentColors[i] || '#ccc'"></span>
+                <span class="label-text">{{ label }}</span>
+            </div>
+        </div>
+    </div>
+</app-card>

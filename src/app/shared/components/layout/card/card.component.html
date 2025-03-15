@@ -1,0 +1,7 @@
+<div class="border border-primary rounded-lg" [class.p-4]="!hidePadding()">
+    @if (title()) {
+        <h4 class="text-base font-bold">{{ title() }}</h4>
+    }
+
+    <ng-content></ng-content>
+</div>
