@@ -27,7 +27,7 @@ export class SummaryComponent {
             }
         ],
         direction: 'horizontal',
-        showTotals: true,
+        showTotals: false,
         hideDataLabels: false
     };
     ethicityBarChart: StackedBarChartConfig = {
@@ -36,12 +36,12 @@ export class SummaryComponent {
         datasets: [
             {
                 data: [98.6, 0.7, 0.5, 0.2],
-                color: this.colors[1]
+                color: this.colors[0]
             }
         ],
         direction: 'horizontal',
         showTotals: false,
-        hideDataLabels: true,
+        hideDataLabels: false,
     };
 
     pieChartData: PieChartConfig = {
