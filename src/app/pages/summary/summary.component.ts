@@ -43,7 +43,7 @@ export class SummaryComponent {
         showTotals: false,
         hideDataLabels: false,
         aspectRatio: 1.22,
-        showPercentage: true
+        isDataPercentage: true
     };
 
     pieChartData: PieChartConfig = {

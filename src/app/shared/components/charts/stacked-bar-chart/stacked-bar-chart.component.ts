@@ -17,7 +17,7 @@ export interface StackedBarChartConfig {
     aspectRatio?: number;
     hideDataLabels?: boolean;
     showTotals?: boolean;
-    showPercentage?: boolean;
+    isDataPercentage?: boolean;
 }
 export interface BarChartDataset {
     label?: string;
@@ -96,7 +96,7 @@ export class StackedBarChart implements OnInit, OnChanges {
                     label: (context) => {
                         const label = context.dataset.label || '';
                         const value = context.parsed.x || context.parsed.y;
-                        return `${label}: ${value} ${this.chartConfig?.showPercentage ? '%' : ''}`; // Format the tooltip
+                        return `${label}: ${value} ${this.chartConfig?.isDataPercentage ? '%' : ''}`; // Format the tooltip
                     }
                 }
             },
@@ -104,7 +104,7 @@ export class StackedBarChart implements OnInit, OnChanges {
                 display: true,
                 color: 'black',
                 formatter: (value, context) => {
-                    return `${value}${this.chartConfig?.showPercentage ? '%' : ''}`; // Format the data labels
+                    return `${value}${this.chartConfig?.isDataPercentage ? '%' : ''}`; // Format the data labels
                 }
                 // align: 'center',
                 // anchor: 'end',
