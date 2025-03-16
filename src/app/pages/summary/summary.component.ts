@@ -27,7 +27,8 @@ export class SummaryComponent {
             }
         ],
         direction: 'horizontal',
-        showTotals: true
+        showTotals: true,
+        hideDataLabels: false
     };
     ethicityBarChart: StackedBarChartConfig = {
         title: 'Ethicity',
@@ -39,8 +40,8 @@ export class SummaryComponent {
             }
         ],
         direction: 'horizontal',
+        showTotals: false,
         hideDataLabels: true,
-        showTotals: false
     };
 
     pieChartData: PieChartConfig = {

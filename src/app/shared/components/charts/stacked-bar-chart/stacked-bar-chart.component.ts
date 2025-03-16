@@ -100,7 +100,7 @@ export class StackedBarChart implements OnInit, OnChanges {
                 }
             },
             datalabels: {
-                display: !this.chartConfig?.hideDataLabels,
+                display: true,
                 color: 'black'
                 // align: 'center',
                 // anchor: 'end',
@@ -138,7 +138,6 @@ export class StackedBarChart implements OnInit, OnChanges {
         }
     }
 
-
     private initializeChart(): void {
         if (!this.chartConfig) return;
 
@@ -147,10 +146,17 @@ export class StackedBarChart implements OnInit, OnChanges {
             this.barChartOptions.indexAxis = this.isHorizontal ? 'y' : 'x';
         }
         // Set Aspect Ratio
-        if (this.barChartOptions && this.chartConfig.aspectRatio) {
+        if (this.chartConfig.aspectRatio) {
             this.barChartOptions.aspectRatio = this.chartConfig.aspectRatio;
         }
+        // set Hide Data Labels
+        this.barChartOptions.plugins.datalabels.display = !this.chartConfig.hideDataLabels;
 
+        // Add totals plugin
+        if (this.chartConfig?.showTotals) {
+            this.addTotalsToChart();
+        }
+        
         // Update chart labels
         this.barChartData.labels = this.labels;
 
@@ -171,11 +177,6 @@ export class StackedBarChart implements OnInit, OnChanges {
 
         // Get legend data
         this.getLegendData();
-
-        // Add totals plugin
-        if (this.chartConfig?.showTotals) {
-            this.addTotalsToChart();
-        }
 
         // Update title
         if (this.barChartOptions?.plugins?.title) {
