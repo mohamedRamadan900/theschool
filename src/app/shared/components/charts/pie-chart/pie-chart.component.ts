@@ -1,8 +1,9 @@
 import { Component, Input, AfterViewInit, OnChanges, OnDestroy, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef, OnInit, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Chart, ChartType, registerables } from 'chart.js';
+import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CardComponent } from '../../layout/card/card.component';
+import { cloneDeep } from 'lodash';
 
 // Register ALL Chart.js components and the datalabels plugin
 Chart.register(...registerables, ChartDataLabels);
@@ -16,6 +17,8 @@ export interface PieChartConfig {
     title?: string;
     data: number[];
     labels: string[];
+    colors?: string[];
+    hideDataLables?: boolean;
 }
 
 @Component({
@@ -42,7 +45,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     private originalColors: string[] = [];
 
     // Default colors
-    private colors = ['#20c9c9', '#ff8080'];
+    private colors = ['#20c9c9', '#ff8080', '#ffcc80', '#80ff80', '#8080ff', '#c920c9', '#c9c920', '#20c9c9', '#ff80ff', '#80ffc9', '#c98020', '#20c980'];
 
     constructor(private cdr: ChangeDetectorRef) {}
 
@@ -51,6 +54,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         this.labels = this.pieChartConfig()?.labels || [];
         this.data = this.pieChartConfig()?.data || [];
         this.title = this.pieChartConfig()?.title || '';
+        this.colors = this.pieChartConfig()?.colors || this.colors;
     }
 
     ngOnInit(): void {
@@ -106,6 +110,8 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         const ctx = this.chartCanvas.nativeElement.getContext('2d');
         if (!ctx) return;
 
+        // const chartOptions:ChartConfiguration['options'] = cloneDeep();
+
         this.chart = new Chart(ctx, {
             type: 'pie' as ChartType,
             data: {
@@ -146,6 +152,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
                     },
                     // Add datalabels configuration
                     datalabels: {
+                        display: !this.pieChartConfig()?.hideDataLables,
                         color: (context) => {
                             // Choose white or black text based on background color brightness
                             const bgColorArray = context.dataset.backgroundColor;

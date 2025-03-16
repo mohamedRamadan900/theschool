@@ -9,27 +9,44 @@ import { PieChartComponent, PieChartConfig } from '../../shared/components/chart
     styleUrl: './summary.component.scss'
 })
 export class SummaryComponent {
-    barChartConfig: StackedBarChartConfig = {
+    colors: string[] = ['#20c9c9', '#ff8080']; // Should be Hexadecimal color codes
+
+    studentsByYearGroupBarChart: StackedBarChartConfig = {
         title: 'Students by Year Group',
         labels: ['Nursery', 'Reception', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13'],
         datasets: [
             {
                 label: 'Female',
                 data: [5, 3, 20, 8, 10, 15, 10, 13, 11, 11, 10, 17, 20, 19, 18],
-                color: 'rgba(32, 201, 201, 1)'
+                color: this.colors[0]
             },
             {
                 label: 'Male',
                 data: [4, 5, 22, 8, 18, 16, 18, 21, 15, 16, 15, 24, 23, 23, 23],
-                color: 'rgba(255, 128, 128, 1)'
+                color: this.colors[1]
             }
         ],
-        direction: 'horizontal'
+        direction: 'horizontal',
+        showTotals: true
+    };
+    ethicityBarChart: StackedBarChartConfig = {
+        title: 'Ethicity',
+        labels: ['WBRI', 'NOBT', 'OARA', 'BCRB'],
+        datasets: [
+            {
+                data: [98.6, 0.7, 0.5, 0.2],
+                color: this.colors[1]
+            }
+        ],
+        direction: 'horizontal',
+        hideDataLabels: true,
+        showTotals: false
     };
 
     pieChartData: PieChartConfig = {
         title: 'Gender Ratio',
         data: [300, 450],
-        labels: ['Male', 'Female']
+        labels: ['Male', 'Female'],
+        colors: this.colors
     };
 }

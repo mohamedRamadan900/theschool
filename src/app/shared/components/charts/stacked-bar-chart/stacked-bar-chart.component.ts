@@ -5,7 +5,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { CardComponent } from '../../layout/card/card.component';
 
 // Register the required Chart.js components
-Chart.register(CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend);
+// Chart.register(CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend);
 
 // Interface for the entire chart configuration
 export interface StackedBarChartConfig {
@@ -14,9 +14,11 @@ export interface StackedBarChartConfig {
     datasets: BarChartDataset[];
     direction?: 'horizontal' | 'vertical';
     aspectRatio?: number;
+    hideDataLabels?: boolean;
+    showTotals?: boolean;
 }
 export interface BarChartDataset {
-    label: string;
+    label?: string;
     data: number[];
     color: string;
 }
@@ -95,6 +97,12 @@ export class StackedBarChart implements OnInit, OnChanges {
                         return `${label}: ${value}`;
                     }
                 }
+            },
+            datalabels: {
+                display: !this.chartConfig?.hideDataLabels,
+                color: 'black'
+                // align: 'center',
+                // anchor: 'end',
             }
         },
         scales: {
@@ -163,7 +171,9 @@ export class StackedBarChart implements OnInit, OnChanges {
         this.getLegendData();
 
         // Add totals plugin
-        this.addTotalsToChart();
+        if (this.chartConfig?.showTotals) {
+            this.addTotalsToChart();
+        }
 
         // Update title
         if (this.barChartOptions?.plugins?.title) {
