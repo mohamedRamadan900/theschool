@@ -7,7 +7,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 10px;
+  // margin-top: 10px;
 }
 
 .legend-item {
@@ -36,24 +36,3 @@
   border-radius: 2px;
 }
 
-.label-text {
-  font-size: 14px;
-}
-.legend-item {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.legend-item.selected .label-text {
-  font-weight: bold;
-}
-
-.color-box {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  margin-right: 8px;
-  border-radius: 2px;
-}

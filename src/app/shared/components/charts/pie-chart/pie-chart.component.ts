@@ -127,7 +127,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
-                aspectRatio: 1,
+                aspectRatio: 1.5,
                 plugins: {
                     title: {
                         display: false,
