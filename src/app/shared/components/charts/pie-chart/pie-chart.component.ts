@@ -4,6 +4,7 @@ import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CardComponent } from '../../layout/card/card.component';
 import { cloneDeep } from 'lodash';
+import { convertToRgba } from '../../../utils/colorHelper';
 
 // Register ALL Chart.js components and the datalabels plugin
 Chart.register(...registerables, ChartDataLabels);
@@ -110,8 +111,6 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         const ctx = this.chartCanvas.nativeElement.getContext('2d');
         if (!ctx) return;
 
-        // const chartOptions:ChartConfiguration['options'] = cloneDeep();
-
         this.chart = new Chart(ctx, {
             type: 'pie' as ChartType,
             data: {
@@ -119,7 +118,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
                 datasets: [
                     {
                         data: this.data,
-                        backgroundColor: this.originalColors,
+                        backgroundColor: this.colors.map(color => convertToRgba(color)),
                         borderColor: '#FFFFFF',
                         borderWidth: 1
                     }

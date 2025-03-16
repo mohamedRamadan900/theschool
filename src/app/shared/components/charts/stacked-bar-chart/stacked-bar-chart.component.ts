@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, ChartData, ChartType, CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CardComponent } from '../../layout/card/card.component';
+import { convertToRgba } from '../../../utils/colorHelper';
 
 // Register the required Chart.js components
 // Chart.register(CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend);
@@ -137,6 +138,7 @@ export class StackedBarChart implements OnInit, OnChanges {
         }
     }
 
+
     private initializeChart(): void {
         if (!this.chartConfig) return;
 
@@ -157,12 +159,12 @@ export class StackedBarChart implements OnInit, OnChanges {
             return {
                 data: dataset.data,
                 label: dataset.label,
-                backgroundColor: dataset.color
+                backgroundColor: convertToRgba(dataset.color)
             };
         });
 
         // Store original colors for highlighting
-        this.originalColors = this.datasets.map((dataset) => dataset.color);
+        this.originalColors = this.datasets.map((dataset) => convertToRgba(dataset.color));
 
         // Initialize chart colors
         this.initializeChartColors();
