@@ -17,6 +17,7 @@ export interface StackedBarChartConfig {
     aspectRatio?: number;
     hideDataLabels?: boolean;
     showTotals?: boolean;
+    showPercentage?: boolean;
 }
 export interface BarChartDataset {
     label?: string;
@@ -92,16 +93,19 @@ export class StackedBarChart implements OnInit, OnChanges {
             },
             tooltip: {
                 callbacks: {
-                    label: function (context) {
+                    label: (context) => {
                         const label = context.dataset.label || '';
                         const value = context.parsed.x || context.parsed.y;
-                        return `${label}: ${value}`;
+                        return `${label}: ${value} ${this.chartConfig?.showPercentage ? '%' : ''}`; // Format the tooltip
                     }
                 }
             },
             datalabels: {
                 display: true,
-                color: 'black'
+                color: 'black',
+                formatter: (value, context) => {
+                    return `${value}${this.chartConfig?.showPercentage ? '%' : ''}`; // Format the data labels
+                }
                 // align: 'center',
                 // anchor: 'end',
             }
@@ -156,7 +160,7 @@ export class StackedBarChart implements OnInit, OnChanges {
         if (this.chartConfig?.showTotals) {
             this.addTotalsToChart();
         }
-        
+
         // Update chart labels
         this.barChartData.labels = this.labels;
 
