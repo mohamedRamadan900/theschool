@@ -3,11 +3,13 @@ import { SummaryStatsComponent } from './components/stats/stats.component';
 import { StackedBarChart, StackedBarChartConfig } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
 import { PieChartComponent, PieChartConfig } from '../../shared/components/charts/pie-chart/pie-chart.component';
 import { ChartColorsArray } from '../../shared/components/charts/chart-colors';
+import { SummaryService } from './services/summary.service';
 @Component({
     selector: 'app-summary',
     imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent],
     templateUrl: './summary.component.html',
-    styleUrl: './summary.component.scss'
+    styleUrl: './summary.component.scss',
+    providers: [SummaryService]
 })
 export class SummaryComponent {
     studentsByYearGroupBarChart: StackedBarChartConfig = {
@@ -42,7 +44,7 @@ export class SummaryComponent {
         direction: 'horizontal',
         showTotals: false,
         hideDataLabels: false,
-        aspectRatio: .84,
+        aspectRatio: 0.84,
         isDataPercentage: true
     };
 
@@ -53,4 +55,9 @@ export class SummaryComponent {
         colors: ChartColorsArray,
         aspectRatio: 1.5
     };
+
+    constructor(private summaryService: SummaryService) {}
+
+
+    
 }
