@@ -77,7 +77,7 @@ export class StackedBarChart implements OnInit, OnChanges {
     public barChartOptions: ChartConfiguration['options'] = {
         indexAxis: 'y', // Default to horizontal bars
         responsive: true,
-        aspectRatio: 0.55,
+        aspectRatio: 1,
         maintainAspectRatio: true,
         plugins: {
             title: {

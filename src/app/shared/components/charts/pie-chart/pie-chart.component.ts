@@ -20,6 +20,7 @@ export interface PieChartConfig {
     labels: string[];
     colors?: string[];
     hideDataLables?: boolean;
+    aspectRatio?: number;
 }
 
 @Component({
@@ -37,7 +38,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     labels: string[] = [];
     data: number[] = [];
     title: string = '';
-
+    aspectRatio: number = 1.5;
     // Public properties for template access
     public currentColors: string[] = [];
     public selectedIndex: number | null = null;
@@ -56,6 +57,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         this.data = this.pieChartConfig()?.data || [];
         this.title = this.pieChartConfig()?.title || '';
         this.colors = this.pieChartConfig()?.colors || this.colors;
+        this.aspectRatio = this.pieChartConfig()?.aspectRatio || 1.5;
     }
 
     ngOnInit(): void {
@@ -118,7 +120,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
                 datasets: [
                     {
                         data: this.data,
-                        backgroundColor: this.colors.map(color => convertToRgba(color)),
+                        backgroundColor: this.colors.map((color) => convertToRgba(color)),
                         borderColor: '#FFFFFF',
                         borderWidth: 1
                     }
@@ -127,7 +129,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
-                aspectRatio: 1.5,
+                aspectRatio: this.aspectRatio,
                 plugins: {
                     title: {
                         display: false,
