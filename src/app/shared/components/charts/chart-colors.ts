@@ -1,10 +1,10 @@
 // Color palette TypeScript object with extracted colors and complementary colors
 const ChartColors = {
     // Original colors from the pie chart
-    primary: '#00C1AE', // Teal/Turquoise (main segment)
-    secondary: '#FF6B6B', // Coral/Salmon (bottom right segment)
-    neutral: '#5A5A5A', // Dark Gray (top left segment)
-    accent: '#FFA45C', // Light Orange/Peach (small segment)
+    primary: '#00C1AE', // Teal/Turquoise
+    secondary: '#FF6B6B', // Coral/Salmon
+    neutral: '#5A5A5A', // Dark Gray
+    accent: '#FFA45C', // Light Orange/Peach
 
     // Additional complementary colors
     primaryLight: '#61DACE', // Lighter teal
