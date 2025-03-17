@@ -29,7 +29,7 @@ export class SummaryComponent {
         direction: 'horizontal',
         showTotals: false,
         hideDataLabels: false,
-        aspectRatio: 0.5
+        aspectRatio: 0.29,
     };
     ethicityBarChart: StackedBarChartConfig = {
         title: 'Ethicity',
