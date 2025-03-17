@@ -1,9 +1,10 @@
-import { Component, ElementRef, HostListener, Input, OnInit, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, OnChanges, SimpleChanges, ViewChild, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, ChartData, ChartType, CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CardComponent } from '../../layout/card/card.component';
 import { convertToRgba } from '../../../utils/colorHelper';
+import { IStackedBarChartFilter } from './stacked-bar-chart-model';
 
 // Register the required Chart.js components
 // Chart.register(CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend);
@@ -37,7 +38,7 @@ export interface BarChartDataset {
 })
 export class StackedBarChart implements OnInit, OnChanges {
     @Input() chartConfig: StackedBarChartConfig | null = null;
-
+    onFilterChange = output<IStackedBarChartFilter>();
     // Computed properties for chart configuration
     get title(): string {
         return this.chartConfig?.title || '';
@@ -301,6 +302,7 @@ export class StackedBarChart implements OnInit, OnChanges {
         if (elements.length === 0) {
             // If clicked outside a bar, reset all colors
             this.resetColors();
+            this.onFilterChange.emit({ filterType: 'reset' });
             return;
         }
         // Get the dataset index and data index of the clicked bar
@@ -313,16 +315,18 @@ export class StackedBarChart implements OnInit, OnChanges {
         const datasetLabel = this.barChartData.datasets[datasetIndex].label;
 
         // Log the clicked bar's data
-        console.log(`Clicked: ${label}, ${datasetLabel}: ${value}`);
+        // console.log(`Clicked: ${label}, ${datasetLabel}: ${value}`);
 
         // If clicking the same bar again, reset colors
         if (this.selectedElement && this.selectedElement.datasetIndex === datasetIndex && this.selectedElement.index === index) {
             this.resetColors();
             this.selectedElement = null;
+            this.onFilterChange.emit({ filterType: 'reset' });
         } else {
             // Otherwise highlight the clicked bar
             this.highlightBar(datasetIndex, index);
             this.selectedElement = { datasetIndex, index };
+            this.onFilterChange.emit({ filterType: 'reset', data: { categoryIndex: index, categoryLabel: label,dataPointValue:value } });
         }
     }
 
