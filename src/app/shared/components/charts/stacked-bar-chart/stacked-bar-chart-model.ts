@@ -1,15 +1,18 @@
 export interface IStackedBarChartFilter {
     filterType: 'reset' | 'category' | 'series' | 'dataPoint';
-    data?: {
-        // For category filtering
-        categoryLabel?: string | number;
-        categoryIndex?: number;
-
-        // For series filtering
-        seriesLabel?: string;
-        seriesIndex?: number;
-
-        // For specific data point filtering
-        dataPointValue?: number;
-    };
+    data?: IStackedBarChartFilterCategory | IStackedBarChartFilterSeries | IStackedBarChartFilterDataPoint;
+}
+export interface IStackedBarChartFilterCategory {
+    categoryId: string;
+    categoryLabel: string | number;
+    categoryIndex: number;
+}
+export interface IStackedBarChartFilterSeries {
+    seriesId: string;
+    seriesLabel: string;
+    seriesIndex: number;
+}
+export interface IStackedBarChartFilterDataPoint {
+    dataPointIndex: number;
+    dataPointValue: number;
 }

@@ -321,12 +321,10 @@ export class StackedBarChart implements OnInit, OnChanges {
         if (this.selectedElement && this.selectedElement.datasetIndex === datasetIndex && this.selectedElement.index === index) {
             this.resetColors();
             this.selectedElement = null;
-            this.onFilterChange.emit({ filterType: 'reset' });
         } else {
             // Otherwise highlight the clicked bar
             this.highlightBar(datasetIndex, index);
             this.selectedElement = { datasetIndex, index };
-            this.onFilterChange.emit({ filterType: 'reset', data: { categoryIndex: index, categoryLabel: label,dataPointValue:value } });
         }
     }
 
