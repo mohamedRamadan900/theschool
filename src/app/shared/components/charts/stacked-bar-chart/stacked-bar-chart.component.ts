@@ -1,30 +1,15 @@
-import { Component, ElementRef, HostListener, Input, OnInit, OnChanges, SimpleChanges, ViewChild, output } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, OnChanges, SimpleChanges, ViewChild, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Chart, ChartConfiguration, ChartData, ChartType, CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart, ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CardComponent } from '../../layout/card/card.component';
 import { convertToRgba } from '../../../utils/colorHelper';
-import { IStackedBarChartFilter } from './stacked-bar-chart-model';
+import { BarChartDataset, IStackedBarChartFilter, StackedBarChartConfig } from './stacked-bar-chart-model';
 
 // Register the required Chart.js components
 // Chart.register(CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend);
 
 // Interface for the entire chart configuration
-export interface StackedBarChartConfig {
-    title: string;
-    labels: string[];
-    datasets: BarChartDataset[];
-    direction?: 'horizontal' | 'vertical';
-    aspectRatio?: number;
-    hideDataLabels?: boolean;
-    showTotals?: boolean;
-    isDataPercentage?: boolean;
-}
-export interface BarChartDataset {
-    label?: string;
-    data: number[];
-    color: string;
-}
 
 @Component({
     selector: 'app-stacked-bar-chart',
@@ -44,10 +29,12 @@ export class StackedBarChart implements OnInit, OnChanges {
         return this.chartConfig?.title || '';
     }
 
-    get labels(): string[] {
-        return this.chartConfig?.labels || [];
+    get categories(): string[] {
+        return this.chartConfig?.categories || [];
     }
-
+    get datasetKey(): string {
+        return this.chartConfig?.datasetKey;
+    }
     get datasets(): BarChartDataset[] {
         return this.chartConfig?.datasets || [];
     }
@@ -94,6 +81,7 @@ export class StackedBarChart implements OnInit, OnChanges {
             },
             tooltip: {
                 callbacks: {
+                    title: (context) => this.datasetKey,
                     label: (context) => {
                         const label = context.dataset.label || '';
                         const value = context.parsed.x || context.parsed.y;
@@ -163,7 +151,7 @@ export class StackedBarChart implements OnInit, OnChanges {
         }
 
         // Update chart labels
-        this.barChartData.labels = this.labels;
+        this.barChartData.labels = this.categories;
 
         // Map input datasets to chart datasets
         this.barChartData.datasets = this.datasets.map((dataset) => {

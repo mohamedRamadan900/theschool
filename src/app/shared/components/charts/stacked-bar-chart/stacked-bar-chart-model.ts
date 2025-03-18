@@ -1,3 +1,20 @@
+export interface StackedBarChartConfig {
+    title: string;
+    categories: string[];
+    datasetKey: string;
+    datasets: BarChartDataset[];
+    direction?: 'horizontal' | 'vertical';
+    aspectRatio?: number;
+    hideDataLabels?: boolean;
+    showTotals?: boolean;
+    isDataPercentage?: boolean;
+}
+export interface BarChartDataset {
+    label: string;
+    data: number[];
+    color: string;
+}
+
 export interface IStackedBarChartFilter {
     filterType: 'reset' | 'category' | 'series' | 'dataPoint';
     data?: IStackedBarChartFilterCategory | IStackedBarChartFilterSeries | IStackedBarChartFilterDataPoint;

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { SummaryStatsComponent } from './components/stats/stats.component';
-import { StackedBarChart, StackedBarChartConfig } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
 import { PieChartComponent, PieChartConfig } from '../../shared/components/charts/pie-chart/pie-chart.component';
 import { ChartColorsArray } from '../../shared/components/charts/chart-colors';
 import { SummaryService } from './services/summary.service';
-import { IStackedBarChartFilter } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart-model';
+import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart-model';
+import { StackedBarChart } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
 @Component({
     selector: 'app-summary',
     imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent],
@@ -15,9 +15,10 @@ import { IStackedBarChartFilter } from '../../shared/components/charts/stacked-b
 export class SummaryComponent {
     studentsByYearGroupBarChart: StackedBarChartConfig = {
         title: 'Students by Year Group',
-        labels: ['Nursery', 'Reception', '1th', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th'],
+        categories: ['Nursery', 'Reception', '1th', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th'],
+        datasetKey: 'Gender',
         datasets: [
-            {   
+            {
                 label: 'Female',
                 data: [5, 3, 20, 8, 10, 15, 10, 13, 11, 11, 10, 17, 20, 19, 18],
                 color: ChartColorsArray[0]
@@ -34,10 +35,13 @@ export class SummaryComponent {
         aspectRatio: 0.45
     };
     ethicityBarChart: StackedBarChartConfig = {
+        // id: 'ethicityBarChart',
         title: 'Ethicity',
-        labels: ['WBRI', 'NOBT', 'OARA', 'BCRB'],
+        categories: ['WBRI', 'NOBT', 'OARA', 'BCRB'],
+        datasetKey: 'Ethicity',
         datasets: [
-            {
+            {   
+                label: 'Ethicity%',
                 data: [98.6, 0.7, 0.5, 0.2],
                 color: ChartColorsArray[0]
             }
