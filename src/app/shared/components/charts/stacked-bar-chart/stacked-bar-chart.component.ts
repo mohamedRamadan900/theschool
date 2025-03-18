@@ -433,7 +433,7 @@ export class StackedBarChart implements OnInit, OnChanges {
             this.resetFilters();
             return;
         }
-        this.resetFilters();
+        this.resetFilters({ dontEmitFilters: true });
         this.selectedElement = {
             datasetIndex: selectedDataSetIndex,
             index: null
@@ -453,7 +453,7 @@ export class StackedBarChart implements OnInit, OnChanges {
     /**
      * Resets all colors to their original values
      */
-    private resetFilters(): void {
+    private resetFilters(_options?: { dontEmitFilters: boolean }): void {
         if (!this.selectedElement && !this.selectedCategory) {
             return;
         }
@@ -485,8 +485,9 @@ export class StackedBarChart implements OnInit, OnChanges {
         this.highlightYaxisTickColor();
         // Update the chart
         this.updateChart();
-
-        this.onFilterChange.emit({ filterType: 'reset' });
+        if (!_options?.dontEmitFilters) {
+            this.onFilterChange.emit({ filterType: 'reset' });
+        }
     }
 
     private reduceOpacityForDataSet(datasetIndex: number): void {
