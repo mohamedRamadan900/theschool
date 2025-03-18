@@ -60,9 +60,16 @@ export class StackedBarChart implements OnInit, OnChanges {
         index: number | null;
     } | null = null;
 
+    private selectedCategory: string | null = null;
+
     public barChartData: ChartData<'bar'> = {
         labels: [],
         datasets: []
+    };
+
+    categoryClickColors = {
+        highlighted: '#000000', // Black
+        notHighlighted: '#666666' // Gray;
     };
 
     plugins = [
@@ -71,15 +78,63 @@ export class StackedBarChart implements OnInit, OnChanges {
             afterEvent: (chart, args) => {
                 if (args.event.type === 'click') {
                     const { x, y } = args.event;
+
+                    // Check if click is on Y-axis labels
                     if (x >= chart.scales.y.left && x <= chart.scales.y.right && y > chart.scales.y.top && y < chart.scales.y.bottom) {
-                        const labelId = chart.scales.y.getValueForPixel(y);
-                        const labelText = chart.scales.y.getLabelForValue(labelId); // Category
-                        this.onFilterChange.emit({ filterType: 'category', data: { categoryId: labelId, categoryLabel: labelText, categoryIndex: labelId } });
+                        // Get the index of the clicked label
+                        const yValue = chart.scales.y.getValueForPixel(y);
+                        const clickedIndex = chart.scales.y.ticks.findIndex((tick) => tick.value === yValue);
+
+                        if (clickedIndex === -1) return; // No matching label found
+
+                        const labelText = chart.scales.y.getLabelForValue(yValue);
+
+                        if (this.selectedCategory === labelText) {
+                            this.resetFilters();
+                            chart.scales.y.options.ticks.color = this.categoryClickColors.notHighlighted;
+                            return;
+                        }
+
+                        this.resetFilters();
+                        this.selectedCategory = labelText;
+
+                        // Highlight the clicked label
+                        chart.scales.y.options.ticks.color = (context) => {
+                            return context.tick.value === yValue ? this.categoryClickColors.highlighted : this.categoryClickColors.notHighlighted;
+                        };
+
+                        // Reduce opacity for all bars except those in the clicked category
+                        chart.data.datasets.forEach((dataset, i) => {
+                            if (Array.isArray(dataset.backgroundColor)) {
+                                dataset.backgroundColor = dataset.backgroundColor.map((color, index) => {
+                                    const baseColor = this.originalColors[i];
+                                    return index === clickedIndex ? baseColor : this.convertToTransparent(baseColor);
+                                });
+                            }
+                        });
+
+                        this.updateChart();
+                        this.onFilterChange.emit({
+                            filterType: 'category',
+                            data: {
+                                categoryId: yValue,
+                                categoryLabel: labelText,
+                                categoryIndex: clickedIndex
+                            }
+                        });
                     }
                 }
             }
         }
     ];
+
+    private convertToTransparent(color: string): string {
+        const rgbMatch = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/);
+        if (rgbMatch) {
+            return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, 0.3)`;
+        }
+        return color;
+    }
 
     public barChartOptions: ChartConfiguration['options'] = {
         indexAxis: 'y', // Default to horizontal bars
@@ -130,6 +185,9 @@ export class StackedBarChart implements OnInit, OnChanges {
                 stacked: true,
                 grid: {
                     display: false
+                },
+                ticks: {
+                    color: '#666666'
                 }
             }
         },
@@ -309,7 +367,7 @@ export class StackedBarChart implements OnInit, OnChanges {
     private handleChartClick(event: any, elements: any[], chart: any): void {
         if (elements.length === 0) {
             // If clicked outside a bar, reset all colors
-            this.resetColors();
+            this.resetFilters();
             return;
         }
         // Get the dataset index and data index of the clicked bar
@@ -323,8 +381,7 @@ export class StackedBarChart implements OnInit, OnChanges {
         // const dataPointValue = this.barChartData.datasets[datasetIndex].data[index] as number; // 5, 3, 20
         // If clicking the same bar again, reset colors
         if (this.selectedElement && this.selectedElement.datasetIndex === datasetIndex && this.selectedElement.index === index) {
-            this.resetColors();
-            this.selectedElement = null;
+            this.resetFilters();
         } else {
             // Otherwise highlight the clicked bar
             this.highlightBar(datasetIndex, index);
@@ -355,9 +412,10 @@ export class StackedBarChart implements OnInit, OnChanges {
 
     handleChartLegendClick(selectedDataSetIndex: number): void {
         if (selectedDataSetIndex === this.selectedElement?.datasetIndex) {
-            this.resetColors();
+            this.resetFilters();
             return;
         }
+        this.resetFilters();
         this.selectedElement = {
             datasetIndex: selectedDataSetIndex,
             index: null
@@ -373,10 +431,11 @@ export class StackedBarChart implements OnInit, OnChanges {
             }
         });
     }
+
     /**
      * Resets all colors to their original values
      */
-    private resetColors(): void {
+    private resetFilters(): void {
         // Reset backgroundColor to original solid colors for each dataset
         for (let i = 0; i < this.barChartData.datasets.length; i++) {
             // Make sure backgroundColor is an array
@@ -392,13 +451,24 @@ export class StackedBarChart implements OnInit, OnChanges {
             for (let j = 0; j < backgroundColors.length; j++) {
                 backgroundColors[j] = this.originalColors[i];
             }
+
+            // this.barChartOptions={...this.barChartOptions}
         }
 
         // Reset active element
         this.selectedElement = null;
-        this.onFilterChange.emit({ filterType: 'reset' });
+        this.selectedCategory = null;
+
+        // Reset Y Axis Ticks ( Categories | labels ) Colors
+        // Reset the actual chart instance's ticks color
+        this.chart.chart.options.scales['y'].ticks.color = this.categoryClickColors.notHighlighted;
+        // Also update your local options copy to maintain consistency
+        this.barChartOptions.scales['y'].ticks.color = this.categoryClickColors.notHighlighted;
+
         // Update the chart
         this.updateChart();
+
+        this.onFilterChange.emit({ filterType: 'reset' });
     }
 
     private reduceOpacityForDataSet(datasetIndex: number): void {
@@ -434,19 +504,20 @@ export class StackedBarChart implements OnInit, OnChanges {
      * Updates the chart with a forced redraw
      */
     private updateChart(): void {
+        this.chart?.update();
         // Force data update
-        this.barChartData = { ...this.barChartData };
-
+        // this.barChartData = { ...this.barChartData };
+        // this.barChartOptions = { ...this.barChartOptions };
         // Update the chart with animation disabled to ensure immediate update
-        if (this.chart?.chart) {
-            this.chart.chart.update();
-            // this.chart.chart.update('none');
-            // // Then update again with a slight delay with animation
-            // setTimeout(() => {
-            //     if (this.chart?.chart) {
-            //         this.chart.chart.update();
-            //     }
-            // }, 50);
-        }
+        // if (this.chart?.chart) {
+        // this.chart.chart.update();
+        // this.chart.chart.update('none');
+        // // Then update again with a slight delay with animation
+        // setTimeout(() => {
+        //     if (this.chart?.chart) {
+        //         this.chart.chart.update();
+        //     }
+        // }, 50);
+        // }
     }
 }
