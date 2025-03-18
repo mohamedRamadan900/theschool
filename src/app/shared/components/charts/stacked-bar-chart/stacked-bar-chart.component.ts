@@ -69,7 +69,7 @@ export class StackedBarChart implements OnInit, OnChanges {
 
     categoryClickColors = {
         highlighted: '#000000', // Black
-        notHighlighted: '#666666' // Gray;
+        initialColor: '#666666' // Gray;
     };
 
     plugins = [
@@ -91,7 +91,7 @@ export class StackedBarChart implements OnInit, OnChanges {
 
                         if (this.selectedCategory === labelText) {
                             this.resetFilters();
-                            chart.scales.y.options.ticks.color = this.categoryClickColors.notHighlighted;
+                            chart.scales.y.options.ticks.color = this.categoryClickColors.initialColor;
                             return;
                         }
 
@@ -100,7 +100,7 @@ export class StackedBarChart implements OnInit, OnChanges {
 
                         // Highlight the clicked label
                         chart.scales.y.options.ticks.color = (context) => {
-                            return context.tick.value === yValue ? this.categoryClickColors.highlighted : this.categoryClickColors.notHighlighted;
+                            return context.tick.value === yValue ? this.categoryClickColors.highlighted : this.categoryClickColors.initialColor;
                         };
 
                         // Reduce opacity for all bars except those in the clicked category
@@ -187,7 +187,7 @@ export class StackedBarChart implements OnInit, OnChanges {
                     display: false
                 },
                 ticks: {
-                    color: '#666666'
+                    color: this.categoryClickColors.initialColor
                 }
             }
         },
@@ -290,7 +290,7 @@ export class StackedBarChart implements OnInit, OnChanges {
             }
 
             // Update the chart
-            this.chart.chart.update();
+           this.updateChart()
         }
     }
 
@@ -465,9 +465,9 @@ export class StackedBarChart implements OnInit, OnChanges {
 
         // Reset Y Axis Ticks ( Categories | labels ) Colors
         // Reset the actual chart instance's ticks color
-        this.chart.chart.options.scales['y'].ticks.color = this.categoryClickColors.notHighlighted;
+        this.chart.chart.options.scales['y'].ticks.color = this.categoryClickColors.initialColor;
         // Also update your local options copy to maintain consistency
-        this.barChartOptions.scales['y'].ticks.color = this.categoryClickColors.notHighlighted;
+        this.barChartOptions.scales['y'].ticks.color = this.categoryClickColors.initialColor;
 
         // Update the chart
         this.updateChart();
@@ -487,18 +487,7 @@ export class StackedBarChart implements OnInit, OnChanges {
 
         const backgroundColors: string[] = (selectedDataList?.backgroundColor as string[]) || [];
         selectedDataList.backgroundColor = backgroundColors.map((color: string) => {
-            // Parse the original color to extract RGB values
-            const colorStr = color;
-            const rgbMatch = colorStr.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/);
-
-            if (rgbMatch) {
-                const r = rgbMatch[1];
-                const g = rgbMatch[2];
-                const b = rgbMatch[3];
-                return `rgba(${r}, ${g}, ${b}, 0.3)`;
-            }
-
-            return colorStr;
+            return this.convertToTransparent(color);
         });
 
         this.updateChart();
@@ -509,19 +498,5 @@ export class StackedBarChart implements OnInit, OnChanges {
      */
     private updateChart(): void {
         this.chart?.update();
-        // Force data update
-        // this.barChartData = { ...this.barChartData };
-        // this.barChartOptions = { ...this.barChartOptions };
-        // Update the chart with animation disabled to ensure immediate update
-        // if (this.chart?.chart) {
-        // this.chart.chart.update();
-        // this.chart.chart.update('none');
-        // // Then update again with a slight delay with animation
-        // setTimeout(() => {
-        //     if (this.chart?.chart) {
-        //         this.chart.chart.update();
-        //     }
-        // }, 50);
-        // }
     }
 }

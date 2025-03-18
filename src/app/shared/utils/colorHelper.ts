@@ -16,3 +16,10 @@ export function convertToRgba(color: string, alpha: number = 1): string {
     }
     return color;
 }
+export function convertToTransparent(color: string, alpha: number = 0.3): string {
+    const rgbMatch = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/);
+    if (rgbMatch) {
+        return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, ${alpha})`;
+    }
+    return color;
+}
