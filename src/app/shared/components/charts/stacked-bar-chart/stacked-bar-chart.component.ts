@@ -436,6 +436,10 @@ export class StackedBarChart implements OnInit, OnChanges {
      * Resets all colors to their original values
      */
     private resetFilters(): void {
+        if (!this.selectedElement && !this.selectedCategory) {
+            return;
+        }
+
         // Reset backgroundColor to original solid colors for each dataset
         for (let i = 0; i < this.barChartData.datasets.length; i++) {
             // Make sure backgroundColor is an array
