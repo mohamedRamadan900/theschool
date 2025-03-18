@@ -339,14 +339,13 @@ export class StackedBarChart implements OnInit, OnChanges {
     handleChartLegendClick(selectedDataSetIndex: number): void {
         if (selectedDataSetIndex === this.selectedElement?.datasetIndex) {
             this.resetColors();
-            console.log(this.selectedElement);
             return;
         }
         this.selectedElement = {
             datasetIndex: selectedDataSetIndex,
             index: null
         };
-        console.log(this.selectedElement);
+        this.onFilterChange.emit({ filterType: 'series', data: { datasetId: this.datasetId, datasetLabel: this.datasets[selectedDataSetIndex].label, datasetIndex: selectedDataSetIndex } });
         // Update Colors
         this.barChartData.datasets.forEach((dataset, index) => {
             if (index === selectedDataSetIndex) {
