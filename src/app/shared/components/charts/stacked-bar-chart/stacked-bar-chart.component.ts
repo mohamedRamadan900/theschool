@@ -65,6 +65,22 @@ export class StackedBarChart implements OnInit, OnChanges {
         datasets: []
     };
 
+    plugins = [
+        {
+            id: 'clickableLabels',
+            afterEvent: (chart, args) => {
+                if (args.event.type === 'click') {
+                    const { x, y } = args.event;
+                    if (x >= chart.scales.y.left && x <= chart.scales.y.right && y > chart.scales.y.top && y < chart.scales.y.bottom) {
+                        const labelId = chart.scales.y.getValueForPixel(y);
+                        const labelText = chart.scales.y.getLabelForValue(labelId); // Category
+                        this.onFilterChange.emit({ filterType: 'category', data: { categoryId: labelId, categoryLabel: labelText, categoryIndex: labelId } });
+                    }
+                }
+            }
+        }
+    ];
+
     public barChartOptions: ChartConfiguration['options'] = {
         indexAxis: 'y', // Default to horizontal bars
         responsive: true,
@@ -117,6 +133,7 @@ export class StackedBarChart implements OnInit, OnChanges {
                 }
             }
         },
+
         onClick: (event, elements, chart) => {
             this.handleChartClick(event, elements, chart);
         }
