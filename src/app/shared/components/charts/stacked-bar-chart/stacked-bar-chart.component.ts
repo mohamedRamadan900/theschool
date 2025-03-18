@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CardComponent } from '../../layout/card/card.component';
-import { convertToRgba } from '../../../utils/colorHelper';
+import { convertToRgba, convertToTransparent } from '../../../utils/colorHelper';
 import { BarChartDataset, IStackedBarChartFilter, StackedBarChartConfig } from '../../../models/stacked-bar-chart-model';
 
 // Register the required Chart.js components
@@ -108,7 +108,7 @@ export class StackedBarChart implements OnInit, OnChanges {
                             if (Array.isArray(dataset.backgroundColor)) {
                                 dataset.backgroundColor = dataset.backgroundColor.map((color, index) => {
                                     const baseColor = this.originalColors[i];
-                                    return index === clickedIndex ? baseColor : this.convertToTransparent(baseColor);
+                                    return index === clickedIndex ? baseColor : convertToTransparent(baseColor);
                                 });
                             }
                         });
@@ -128,12 +128,28 @@ export class StackedBarChart implements OnInit, OnChanges {
         }
     ];
 
-    private convertToTransparent(color: string): string {
-        const rgbMatch = color.match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)(?:\s*,\s*([\d.]+))?\s*\)/);
-        if (rgbMatch) {
-            return `rgba(${rgbMatch[1]}, ${rgbMatch[2]}, ${rgbMatch[3]}, 0.3)`;
+    private highlightYaxisTickColor(targetTickLabel?: string): void {
+        // resetColors
+        // Reset the actual chart instance's ticks color
+        this.chart.chart.options.scales['y'].ticks.color = this.categoryClickColors.initialColor;
+        // Also update your local options copy to maintain consistency
+        this.barChartOptions.scales['y'].ticks.color = this.categoryClickColors.initialColor;
+
+        // Highlight target tick
+        if (targetTickLabel) {
+            this.barChartOptions.scales['y'].ticks.color = (context) => {
+                const label = context.tick.label;
+                return label === targetTickLabel
+                    ? this.categoryClickColors.highlighted // Highlight color for the target tick
+                    : this.categoryClickColors.initialColor; // Normal color for other ticks
+            };
+
+            // Apply the updated options to the chart instance
+            this.chart.chart.options.scales['y'].ticks.color = this.barChartOptions.scales['y'].ticks.color;
+
+            // Update the chart to reflect changes
+            this.chart.chart.update();
         }
-        return color;
     }
 
     public barChartOptions: ChartConfiguration['options'] = {
@@ -290,7 +306,7 @@ export class StackedBarChart implements OnInit, OnChanges {
             }
 
             // Update the chart
-           this.updateChart()
+            this.updateChart();
         }
     }
 
@@ -386,6 +402,8 @@ export class StackedBarChart implements OnInit, OnChanges {
             // Otherwise highlight the clicked bar
             this.highlightBar(datasetIndex, index);
             this.selectedElement = { datasetIndex, index };
+            this.selectedCategory = categoryId;
+            this.highlightYaxisTickColor(categoryId);
             // Emit filter change event
             this.onFilterChange.emit({ filterType: 'dataPoint', data: { datasetId: datasetId, datasetLabel: datasetLabel, categoryId: categoryId } });
         }
@@ -464,11 +482,7 @@ export class StackedBarChart implements OnInit, OnChanges {
         this.selectedCategory = null;
 
         // Reset Y Axis Ticks ( Categories | labels ) Colors
-        // Reset the actual chart instance's ticks color
-        this.chart.chart.options.scales['y'].ticks.color = this.categoryClickColors.initialColor;
-        // Also update your local options copy to maintain consistency
-        this.barChartOptions.scales['y'].ticks.color = this.categoryClickColors.initialColor;
-
+        this.highlightYaxisTickColor();
         // Update the chart
         this.updateChart();
 
@@ -487,7 +501,7 @@ export class StackedBarChart implements OnInit, OnChanges {
 
         const backgroundColors: string[] = (selectedDataList?.backgroundColor as string[]) || [];
         selectedDataList.backgroundColor = backgroundColors.map((color: string) => {
-            return this.convertToTransparent(color);
+            return convertToTransparent(color);
         });
 
         this.updateChart();
