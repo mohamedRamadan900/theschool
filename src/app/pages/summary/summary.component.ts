@@ -3,7 +3,7 @@ import { SummaryStatsComponent } from './components/stats/stats.component';
 import { PieChartComponent, PieChartConfig } from '../../shared/components/charts/pie-chart/pie-chart.component';
 import { ChartColorsArray } from '../../shared/components/charts/chart-colors';
 import { SummaryService } from './services/summary.service';
-import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart-model';
+import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/models/stacked-bar-chart-model';
 import { StackedBarChart } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
 @Component({
     selector: 'app-summary',
