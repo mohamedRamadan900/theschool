@@ -8,6 +8,7 @@ export interface StackedBarChartConfig {
     hideDataLabels?: boolean;
     showTotals?: boolean;
     isDataPercentage?: boolean;
+    showLegend?: boolean;
 }
 export interface BarChartDataset {
     label: string;

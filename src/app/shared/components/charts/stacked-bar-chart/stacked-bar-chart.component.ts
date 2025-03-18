@@ -42,6 +42,9 @@ export class StackedBarChart implements OnInit, OnChanges {
     get isHorizontal(): boolean {
         return this.chartConfig?.direction === 'horizontal';
     }
+    get showCustomLegend(): boolean {
+        return this.chartConfig?.showLegend ?? true;
+    }
 
     legendData: { label: string; color: string }[] = [];
 

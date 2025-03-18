@@ -40,7 +40,7 @@ export class SummaryComponent {
         categories: ['WBRI', 'NOBT', 'OARA', 'BCRB'],
         datasetId: 'Ethicity',
         datasets: [
-            {   
+            {
                 label: 'Ethicity',
                 data: [98.6, 0.7, 0.5, 0.2],
                 color: ChartColorsArray[0]
@@ -50,7 +50,8 @@ export class SummaryComponent {
         showTotals: false,
         hideDataLabels: false,
         aspectRatio: 0.84,
-        isDataPercentage: true
+        isDataPercentage: true,
+        showLegend: false
     };
 
     pieChartData: PieChartConfig = {
