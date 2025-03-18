@@ -1,7 +1,7 @@
 export interface StackedBarChartConfig {
     title: string;
     categories: string[];
-    datasetKey: string;
+    datasetId: string;
     datasets: BarChartDataset[];
     direction?: 'horizontal' | 'vertical';
     aspectRatio?: number;
@@ -25,11 +25,12 @@ export interface IStackedBarChartFilterCategory {
     categoryIndex: number;
 }
 export interface IStackedBarChartFilterSeries {
-    seriesId: string;
-    seriesLabel: string;
-    seriesIndex: number;
+    datasetId: string;
+    datasetLabel: string;
+    datasetIndex: number;
 }
 export interface IStackedBarChartFilterDataPoint {
-    dataPointIndex: number;
-    dataPointValue: number;
+    datasetId: string;
+    datasetLabel: string;
+    categoryId: string;
 }

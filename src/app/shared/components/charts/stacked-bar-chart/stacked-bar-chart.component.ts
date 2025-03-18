@@ -32,8 +32,8 @@ export class StackedBarChart implements OnInit, OnChanges {
     get categories(): string[] {
         return this.chartConfig?.categories || [];
     }
-    get datasetKey(): string {
-        return this.chartConfig?.datasetKey;
+    get datasetId(): string {
+        return this.chartConfig?.datasetId;
     }
     get datasets(): BarChartDataset[] {
         return this.chartConfig?.datasets || [];
@@ -81,7 +81,7 @@ export class StackedBarChart implements OnInit, OnChanges {
             },
             tooltip: {
                 callbacks: {
-                    title: (context) => this.datasetKey,
+                    title: (context) => this.datasetId,
                     label: (context) => {
                         const label = context.dataset.label || '';
                         const value = context.parsed.x || context.parsed.y;
@@ -290,7 +290,6 @@ export class StackedBarChart implements OnInit, OnChanges {
         if (elements.length === 0) {
             // If clicked outside a bar, reset all colors
             this.resetColors();
-            this.onFilterChange.emit({ filterType: 'reset' });
             return;
         }
         // Get the dataset index and data index of the clicked bar
@@ -298,13 +297,10 @@ export class StackedBarChart implements OnInit, OnChanges {
         const index = elements[0].index;
 
         // Extract information about the clicked bar
-        const label = this.barChartData.labels?.[index] as string;
-        const value = this.barChartData.datasets[datasetIndex].data[index] as number;
-        const datasetLabel = this.barChartData.datasets[datasetIndex].label;
-
-        // Log the clicked bar's data
-        // console.log(`Clicked: ${label}, ${datasetLabel}: ${value}`);
-
+        const datasetId = this.datasetId; //Gender
+        const datasetLabel = this.barChartData.datasets[datasetIndex].label; //  Female / Male
+        const categoryId = this.barChartData.labels?.[index] as string; // Category Nursery , 1th , 2nd
+        // const dataPointValue = this.barChartData.datasets[datasetIndex].data[index] as number; // 5, 3, 20
         // If clicking the same bar again, reset colors
         if (this.selectedElement && this.selectedElement.datasetIndex === datasetIndex && this.selectedElement.index === index) {
             this.resetColors();
@@ -313,6 +309,8 @@ export class StackedBarChart implements OnInit, OnChanges {
             // Otherwise highlight the clicked bar
             this.highlightBar(datasetIndex, index);
             this.selectedElement = { datasetIndex, index };
+            // Emit filter change event
+            this.onFilterChange.emit({ filterType: 'dataPoint', data: { datasetId: datasetId, datasetLabel: datasetLabel, categoryId: categoryId } });
         }
     }
 
@@ -379,7 +377,7 @@ export class StackedBarChart implements OnInit, OnChanges {
 
         // Reset active element
         this.selectedElement = null;
-
+        this.onFilterChange.emit({ filterType: 'reset' });
         // Update the chart
         this.updateChart();
     }
