@@ -436,14 +436,14 @@ export class StackedBarChart implements OnInit, OnChanges {
 
         // Update the chart with animation disabled to ensure immediate update
         if (this.chart?.chart) {
-            this.chart.chart.update('none');
-
-            // Then update again with a slight delay with animation
-            setTimeout(() => {
-                if (this.chart?.chart) {
-                    this.chart.chart.update();
-                }
-            }, 50);
+            this.chart.chart.update();
+            // this.chart.chart.update('none');
+            // // Then update again with a slight delay with animation
+            // setTimeout(() => {
+            //     if (this.chart?.chart) {
+            //         this.chart.chart.update();
+            //     }
+            // }, 50);
         }
     }
 }
