@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { SummaryStatsComponent } from './components/stats/stats.component';
-import { PieChartComponent, PieChartConfig } from '../../shared/components/charts/pie-chart/pie-chart.component';
+import { PieChartComponent } from '../../shared/components/charts/pie-chart/pie-chart.component';
 import { ChartColorsArray } from '../../shared/components/charts/chart-colors';
 import { SummaryService } from './services/summary.service';
 import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/models/stacked-bar-chart-model';
 import { StackedBarChart } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
+import { PieChartConfig } from '../../shared/models/pie-chart.model';
 @Component({
     selector: 'app-summary',
     imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent],
@@ -55,6 +56,7 @@ export class SummaryComponent {
     };
 
     genderRatio: PieChartConfig = {
+        datasetId: 'GenderRatio',
         title: 'Gender Ratio',
         data: [300, 450],
         labels: ['Female', 'Male'],
@@ -63,8 +65,9 @@ export class SummaryComponent {
     };
     boarderRatio: PieChartConfig = {
         title: 'Boarder Ratio',
-        data: [150,200,350,600],
-        labels: ['Boarder 7 Nights', 'Boarder 6 Nights','Boarder night per week','Not a borader'],
+        datasetId: 'boarderRatio',
+        data: [150, 200, 350, 600],
+        labels: ['Boarder 7 Nights', 'Boarder 6 Nights', 'Boarder night per week', 'Not a borader'],
         colors: ChartColorsArray,
         aspectRatio: 1.5
     };

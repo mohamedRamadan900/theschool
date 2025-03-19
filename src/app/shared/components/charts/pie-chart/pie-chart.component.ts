@@ -6,23 +6,10 @@ import { CardComponent } from '../../layout/card/card.component';
 import { cloneDeep } from 'lodash';
 import { convertToRgba } from '../../../utils/colorHelper';
 import { LegendComponent } from '../legend/legend/legend.component';
+import { PieChartConfig } from '../../../models/pie-chart.model';
 
 // Register ALL Chart.js components and the datalabels plugin
 Chart.register(...registerables, ChartDataLabels);
-
-export interface PieChartDataItem {
-    label: string;
-    value: number;
-    color?: string;
-}
-export interface PieChartConfig {
-    title?: string;
-    data: number[];
-    labels: string[];
-    colors?: string[];
-    hideDataLables?: boolean;
-    aspectRatio?: number;
-}
 
 @Component({
     selector: 'app-pie-chart',
@@ -40,10 +27,13 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     data: number[] = [];
     title: string = '';
     aspectRatio: number = 1.5;
+    get datasetId(): string {
+        return this.pieChartConfig()?.datasetId;
+    }
     // Public properties for template access
     public currentColors: string[] = [];
     public selectedIndex: number | null = null;
-    public legendData: Array<{label: string, color: string}> = [];
+    public legendData: Array<{ label: string; color: string }> = [];
 
     private chart: Chart | null = null;
     private originalColors: string[] = [];
@@ -147,6 +137,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
                     },
                     tooltip: {
                         callbacks: {
+                            title: (context) =>this.title,
                             label: (context) => {
                                 const label = context.label || '';
                                 const value = context.parsed;
