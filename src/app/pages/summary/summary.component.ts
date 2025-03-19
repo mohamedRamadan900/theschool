@@ -6,9 +6,10 @@ import { SummaryService } from './services/summary.service';
 import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/models/stacked-bar-chart-model';
 import { StackedBarChart } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
 import { PieChartConfig } from '../../shared/models/pie-chart.model';
+import { MapComponent } from '../../shared/components/charts/map/map.component';
 @Component({
     selector: 'app-summary',
-    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent],
+    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent,MapComponent],
     templateUrl: './summary.component.html',
     styleUrl: './summary.component.scss',
     providers: [SummaryService]
@@ -91,9 +92,34 @@ export class SummaryComponent {
         showLegend: false
     };
 
+    mapMarkers = [
+        {
+            lat: 51.5074,
+            lng: -0.1278,
+            title: "London School",
+            info: "500 Students"
+        },
+        {
+            lat: 51.4543,
+            lng: -0.9781,
+            title: "Reading Branch",
+            info: "250 Students"
+        },
+        {
+            lat: 51.7520,
+            lng: -1.2577,
+            title: "Oxford Campus",
+            info: "350 Students"
+        }
+    ];
+
     constructor(private summaryService: SummaryService) {}
 
     onStudentsBarChartFilterChange(filter: IStackedBarChartFilter) {
         console.log('Filter changed', filter);
+    }
+
+    onMapMarkerClick(marker: any) {
+        console.log('Marker clicked:', marker);
     }
 }
