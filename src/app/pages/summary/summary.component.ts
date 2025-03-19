@@ -72,10 +72,10 @@ export class SummaryComponent {
     attendanceByYear: StackedBarChartConfig = {
         title: 'Attendance By Year',
         categories: ['Nursery', 'Reception', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th'],
-        datasetId: 'attendance',
+        datasetId: 'attendanceByYear',
         datasets: [
             {
-                label: 'AttendanceByYearPercentage',
+                label: 'Attendance',
                 data: [96.9, 96.2, 96.4, 96.8, 96.5, 96.5, 97.0, 96.7, 96.5, 96.5, 96.6, 96.5, 96.6, 96.7, 96.5],
                 color: ChartColorsArray[0]
             }

@@ -3,7 +3,7 @@
         @if (item.label) {
             <li class="flex items-center gap-1 cursor-default w-1/4 overflow-hidden" (click)="handleLegendClick($index)">
                 <span class="w-2.5 h-2.5 rounded-full shrink-0" [style.backgroundColor]="item.color"></span>
-                <span class=" truncate text-ellipsis">{{ item.label }}</span>
+                <span [title]="item.label" class=" truncate text-ellipsis">{{ item.label }}</span>
             </li>
         }
     }
