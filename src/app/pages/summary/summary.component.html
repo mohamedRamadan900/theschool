@@ -10,11 +10,11 @@
         </div>
         
         <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
-        <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
+        <!-- <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart> -->
         
         <div class="grid grid-cols-1 gap-4 lg:col-span-1 xl:col-span-2">
+            <!-- <div>Map here</div> -->
             <app-pie-chart [pieChartConfig]="boarderRatio"></app-pie-chart>
-            <div>Map here</div>
         </div>
     </section>
 </main>
