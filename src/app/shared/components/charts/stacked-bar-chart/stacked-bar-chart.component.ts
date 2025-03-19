@@ -5,6 +5,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { CardComponent } from '../../layout/card/card.component';
 import { convertToRgba, convertToTransparent } from '../../../utils/colorHelper';
 import { BarChartDataset, IStackedBarChartFilter, StackedBarChartConfig } from '../../../models/stacked-bar-chart-model';
+import { LegendComponent } from '../legend/legend/legend.component';
 
 // Register the required Chart.js components
 // Chart.register(CategoryScale, LinearScale, BarController, BarElement, Title, Tooltip, Legend);
@@ -14,7 +15,7 @@ import { BarChartDataset, IStackedBarChartFilter, StackedBarChartConfig } from '
 @Component({
     selector: 'app-stacked-bar-chart',
     standalone: true,
-    imports: [CommonModule, BaseChartDirective, CardComponent],
+    imports: [CommonModule, BaseChartDirective, CardComponent, LegendComponent],
     templateUrl: './stacked-bar-chart.component.html',
     styleUrl: './stacked-bar-chart.component.scss',
     host: {

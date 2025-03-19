@@ -5,6 +5,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { CardComponent } from '../../layout/card/card.component';
 import { cloneDeep } from 'lodash';
 import { convertToRgba } from '../../../utils/colorHelper';
+import { LegendComponent } from '../legend/legend/legend.component';
 
 // Register ALL Chart.js components and the datalabels plugin
 Chart.register(...registerables, ChartDataLabels);
@@ -26,7 +27,7 @@ export interface PieChartConfig {
 @Component({
     selector: 'app-pie-chart',
     standalone: true,
-    imports: [CommonModule, CardComponent],
+    imports: [CommonModule, CardComponent, LegendComponent],
     templateUrl: './pie-chart.component.html',
     styleUrls: ['./pie-chart.component.scss']
 })
@@ -42,6 +43,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     // Public properties for template access
     public currentColors: string[] = [];
     public selectedIndex: number | null = null;
+    public legendData: Array<{label: string, color: string}> = [];
 
     private chart: Chart | null = null;
     private originalColors: string[] = [];
@@ -58,6 +60,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         this.title = this.pieChartConfig()?.title || '';
         this.colors = this.pieChartConfig()?.colors || this.colors;
         this.aspectRatio = this.pieChartConfig()?.aspectRatio || 1.5;
+        this.updateLegendData();
     }
 
     ngOnInit(): void {
@@ -296,6 +299,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
 
         // Trigger change detection
         this.cdr.detectChanges();
+        this.updateLegendData();
     }
 
     /**
@@ -318,6 +322,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
 
         // Trigger change detection
         this.cdr.detectChanges();
+        this.updateLegendData();
     }
 
     /**
@@ -384,5 +389,12 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         // Calculate brightness (YIQ formula)
         const brightness = (r * 299 + g * 587 + b * 114) / 1000;
         return brightness > 128;
+    }
+
+    private updateLegendData(): void {
+        this.legendData = this.labels.map((label, index) => ({
+            label,
+            color: this.colors[index] || '#ccc'
+        }));
     }
 }

@@ -1,15 +1,6 @@
 <app-card [title]="title">
     @if (showCustomLegend) {
-        <ul class="flex gap-3 text-sm">
-            @for (item of legendData; track $index) {
-                @if (item.label) {
-                    <li class="flex items-center gap-1 cursor-default" (click)="handleChartLegendClick($index)">
-                        <span class="w-3 h-3 rounded-full" [style.backgroundColor]="item.color"></span>
-                        <span>{{ item.label }}</span>
-                    </li>
-                }
-            }
-        </ul>
+        <app-legend [legendData]="legendData" (legendItemClick)="handleChartLegendClick($event)"></app-legend>
     }
 
     <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType" [plugins]="plugins"> </canvas>
