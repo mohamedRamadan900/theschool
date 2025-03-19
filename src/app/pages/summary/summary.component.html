@@ -7,5 +7,6 @@
             <app-pie-chart [pieChartConfig]="pieChartData"></app-pie-chart>
             <app-stacked-bar-chart [chartConfig]="ethicityBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
         </div>
+        <app-stacked-bar-chart class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
     </section>
 </main>
