@@ -1,7 +1,7 @@
 <ul class="flex gap-3 text-sm mb-2">
     @for (item of legendData; track $index) {
         @if (item.label) {
-            <li class="flex items-center gap-1 cursor-default w-1/4 overflow-hidden" (click)="handleLegendClick($index)">
+            <li class="flex items-center gap-1 cursor-default overflow-hidden" (click)="handleLegendClick($index)">
                 <span class="w-2.5 h-2.5 rounded-full shrink-0" [style.backgroundColor]="item.color"></span>
                 <span [title]="item.label" class=" truncate text-ellipsis">{{ item.label }}</span>
             </li>
