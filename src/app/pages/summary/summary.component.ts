@@ -54,10 +54,17 @@ export class SummaryComponent {
         showLegend: false
     };
 
-    pieChartData: PieChartConfig = {
+    genderRatio: PieChartConfig = {
         title: 'Gender Ratio',
         data: [300, 450],
         labels: ['Female', 'Male'],
+        colors: ChartColorsArray,
+        aspectRatio: 1.5
+    };
+    boarderRatio: PieChartConfig = {
+        title: 'Boarder Ratio',
+        data: [150,200,350,600],
+        labels: ['Boarder 7 Nights', 'Boarder 6 Nights','Boarder night per week','Not a borader'],
         colors: ChartColorsArray,
         aspectRatio: 1.5
     };

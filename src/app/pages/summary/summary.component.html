@@ -4,9 +4,13 @@
     <section class="flex flex-row flex-wrap gap-5">
         <app-stacked-bar-chart class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" [chartConfig]="studentsByYearGroupBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
         <div class="flex flex-col gap-5 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
-            <app-pie-chart [pieChartConfig]="pieChartData"></app-pie-chart>
+            <app-pie-chart [pieChartConfig]="genderRatio"></app-pie-chart>
             <app-stacked-bar-chart [chartConfig]="ethicityBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
         </div>
         <app-stacked-bar-chart class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
+        <div class="flex flex-col gap-5 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
+            <app-pie-chart [pieChartConfig]="boarderRatio"></app-pie-chart>
+            Map here
+        </div>
     </section>
 </main>
