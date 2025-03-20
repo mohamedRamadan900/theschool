@@ -165,6 +165,69 @@ export class SummaryComponent {
         }
     ];
 
+    mapMarkersWithAddress: MapMarker[] = [
+        {   
+            id: 1,
+            title: 'Cairo School',
+            popup: '700 Students',
+            address: '12 El-Nahda Street, Nasr City, Cairo Governorate,Egypt'
+        },
+        {
+            id: 2,
+            title: 'Alexandria Branch',
+            popup: '400 Students',
+            address: '25 El-Horreya Road, Mansheya, Alexandria Governorate'
+        },
+        {
+            id: 3,
+            title: 'Luxor Campus',
+            popup: '300 Students',
+            address: '7 Karnak Temple Street, East Bank, Luxor Governorate'
+        },
+        {
+            id: 4,
+            title: 'Asyut Academy',
+            popup: '250 Students',
+            address: '15 El-Gomhoreya Street, Central Asyut, Asyut Governorate'
+        },
+        {
+            id: 5,
+            title: 'Zagazig Institute',
+            popup: '200 Students',
+            address: '8 University Street, El-Moatasem, Zagazig, Sharqia Governorate'
+        },
+        {
+            id: 6,
+            title: 'Port Said School',
+            popup: '350 Students',
+            address: '30 El-Shohadaa Street, Al-Arab District, Port Said Governorate'
+        },
+        {
+            id: 7,
+            title: 'Fayoum University',
+            popup: '500 Students',
+            address: '10 Gamal Abdel Nasser Street, Keman Fares, Fayoum Governorate'
+        },
+        {
+            id: 8,
+            title: 'Mansoura Campus',
+            popup: '450 Students',
+            address: '5 El-Gomhoreya Street, Toreil, Mansoura, Dakahlia Governorate'
+        },
+        {
+            id: 9,
+            title: 'Sohag Branch',
+            popup: '300 Students',
+            address: '20 El-Nile Street, El-Shahid, Sohag Governorate'
+        },
+        {
+            id: 10,
+            title: 'Damietta School',
+            popup: '150 Students',
+            address: '3 Port Said Street, Ezbet El-Borg, Damietta Governorate'
+        }
+    ];
+
     constructor(private summaryService: SummaryService) {}
 
     onStudentsBarChartFilterChange(filter: IStackedBarChartFilter) {

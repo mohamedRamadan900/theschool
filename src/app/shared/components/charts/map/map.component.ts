@@ -1,27 +1,30 @@
 import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, signal, input } from '@angular/core';
 import * as L from 'leaflet';
 import { CardComponent } from '../../layout/card/card.component';
+import { firstValueFrom } from 'rxjs';
+import { GeocodingService } from './../../../services/geocoding.service';
 
 // Add this fix for marker icons //Customize Marker
-const iconRetinaUrl = 'assets/map/marker.png';
-const iconUrl = 'assets/map/marker.png';
-// const shadowUrl = 'assets/marker-shadow.png';
-const iconDefault = L.icon({
-    iconRetinaUrl,
-    iconUrl,
-    // shadowUrl,
-    iconSize: [25, 25],
-    iconAnchor: [25, 25],
-    popupAnchor: [1, -34],
-    tooltipAnchor: [16, -28],
-    shadowSize: [41, 41]
-});
-L.Marker.prototype.options.icon = iconDefault;
+// const iconRetinaUrl = 'assets/map/marker.png';
+// const iconUrl = 'assets/map/marker.png';
+// // const shadowUrl = 'assets/marker-shadow.png';
+// const iconDefault = L.icon({
+//     iconRetinaUrl,
+//     iconUrl,
+//     // shadowUrl,
+//     iconSize: [25, 25],
+//     iconAnchor: [25, 25],
+//     popupAnchor: [1, -34],
+//     tooltipAnchor: [16, -28],
+//     shadowSize: [41, 41]
+// });
+// L.Marker.prototype.options.icon = iconDefault;
 
 export interface MapMarker {
     id?: string | number;
-    lat: number;
-    lng: number;
+    lat?: number;
+    lng?: number;
+    address?: string;
     title: string;
     popup?: string;
 }
@@ -30,7 +33,8 @@ export interface MapMarker {
     selector: 'app-map',
     templateUrl: './map.component.html',
     styleUrls: ['./map.component.scss'],
-    imports: [CardComponent]
+    imports: [CardComponent],
+    providers: [GeocodingService]
 })
 export class MapComponent implements AfterViewInit {
     // Add default opacity constants
@@ -49,6 +53,8 @@ export class MapComponent implements AfterViewInit {
     private leafletMarkers: L.CircleMarker[] = [];
 
     isFullScreen = signal<boolean>(false);
+
+    constructor(private geocodingService: GeocodingService) {}
 
     toggleFullScreen(): void {
         this.isFullScreen.set(!this.isFullScreen());
@@ -109,7 +115,6 @@ export class MapComponent implements AfterViewInit {
         });
     }
 
-    // Add this new method to handle marker IDs
     private getMarkerId(marker: MapMarker, index: number): string {
         if (marker.id) return String(marker.id);
         // Generate a unique ID using coordinates and index as fallback
@@ -139,11 +144,33 @@ export class MapComponent implements AfterViewInit {
         this.selectMarkers(selected);
     }
 
-    private addMarkers(): void {
+    private async addMarkers(): Promise<void> {
         this.leafletMarkers = []; // Clear existing markers
-        this.markers().forEach((marker, index) => {
-            const markerId = this.getMarkerId(marker, index);
-            const leafletMarker = L.circleMarker([marker.lat, marker.lng], {
+
+        for (let i = 0; i < this.markers().length; i++) {
+            const marker = this.markers()[i];
+            let lat = marker.lat;
+            let lng = marker.lng;
+
+            // If address is provided but no coordinates, geocode the address
+            if (marker.address && (!lat || !lng)) {
+                const coordinates = await firstValueFrom(this.geocodingService.geocodeAddress(marker.address));
+                if (coordinates) {
+                    [lat, lng] = coordinates;
+                } else {
+                    console.warn(`Could not geocode address: ${marker.address}`);
+                    continue;
+                }
+            }
+
+            // Skip if we don't have valid coordinates
+            if (!lat || !lng) {
+                console.warn('Marker missing coordinates:', marker);
+                continue;
+            }
+
+            const markerId = this.getMarkerId(marker, i);
+            const leafletMarker = L.circleMarker([lat, lng], {
                 radius: 8,
                 fillColor: '#0078D7',
                 color: '#ffffff',
@@ -151,7 +178,7 @@ export class MapComponent implements AfterViewInit {
                 opacity: this.DEFAULT_OPACITY,
                 fillOpacity: this.DEFAULT_OPACITY
             })
-                .bindPopup(marker.popup || marker.title, {})
+                .bindPopup(marker.popup || marker.title)
                 .bindTooltip(marker.popup, {
                     permanent: false,
                     direction: 'top',
@@ -159,6 +186,7 @@ export class MapComponent implements AfterViewInit {
                 })
                 .addTo(this.map);
 
+            // ...existing code for click handler...
             leafletMarker.on('click', () => {
                 const isAlreadySelected = this.selectedMarkers().length === 1 && this.getMarkerId(this.selectedMarkers()[0], this.markers().indexOf(this.selectedMarkers()[0])) === markerId;
 
@@ -168,6 +196,6 @@ export class MapComponent implements AfterViewInit {
             });
 
             this.leafletMarkers.push(leafletMarker);
-        });
+        }
     }
 }

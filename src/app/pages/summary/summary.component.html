@@ -13,7 +13,7 @@
         <!-- <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart> -->
 
         <div class="grid grid-cols-1 gap-4 lg:col-span-1 xl:col-span-2">
-            <app-map title="Student Distributions" [height]="'300px'" [markers]="mapMarkers" (onMarkersSelect)="onMapMarkersSelection($event)"></app-map>
+            <app-map title="Student Distributions" [height]="'300px'" [markers]="mapMarkersWithAddress" (onMarkersSelect)="onMapMarkersSelection($event)"></app-map>
             <app-pie-chart [pieChartConfig]="boarderRatio"></app-pie-chart>
         </div>
     </section>
