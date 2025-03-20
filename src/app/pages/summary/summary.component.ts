@@ -6,10 +6,10 @@ import { SummaryService } from './services/summary.service';
 import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/models/stacked-bar-chart-model';
 import { StackedBarChart } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
 import { PieChartConfig } from '../../shared/models/pie-chart.model';
-import { MapComponent } from '../../shared/components/charts/map/map.component';
+import { MapComponent, MapMarker } from '../../shared/components/charts/map/map.component';
 @Component({
     selector: 'app-summary',
-    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent,MapComponent],
+    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent],
     templateUrl: './summary.component.html',
     styleUrl: './summary.component.scss',
     providers: [SummaryService]
@@ -92,66 +92,66 @@ export class SummaryComponent {
         showLegend: false
     };
 
-    mapMarkers = [
-        {
+    mapMarkers: MapMarker[] = [
+        {   
             lat: 30.0444,
             lng: 31.2357,
-            title: "Cairo School",
-            info: "700 Students"
+            title: 'Cairo School',
+            popup: '700 Students'
         },
         {
             lat: 31.2156,
             lng: 29.9553,
-            title: "Alexandria Branch",
-            info: "400 Students"
+            title: 'Alexandria Branch',
+            popup: '400 Students'
         },
         {
             lat: 25.6872,
             lng: 32.6396,
-            title: "Luxor Campus",
-            info: "300 Students"
+            title: 'Luxor Campus',
+            popup: '300 Students'
         },
         {
             lat: 27.1801,
             lng: 31.1837,
-            title: "Asyut Academy",
-            info: "250 Students"
+            title: 'Asyut Academy',
+            popup: '250 Students'
         },
         {
             lat: 30.5852,
-            lng: 31.5020,
-            title: "Zagazig Institute",
-            info: "200 Students"
+            lng: 31.502,
+            title: 'Zagazig Institute',
+            popup: '200 Students'
         },
         {
             lat: 31.1321,
             lng: 33.8033,
-            title: "Port Said School",
-            info: "350 Students"
+            title: 'Port Said School',
+            popup: '350 Students'
         },
         {
             lat: 29.3099,
             lng: 30.8418,
-            title: "Fayoum University",
-            info: "500 Students"
+            title: 'Fayoum University',
+            popup: '500 Students'
         },
         {
             lat: 31.0409,
             lng: 31.3785,
-            title: "Mansoura Campus",
-            info: "450 Students"
+            title: 'Mansoura Campus',
+            popup: '450 Students'
         },
         {
-            lat: 26.5560,
+            lat: 26.556,
             lng: 31.6948,
-            title: "Sohag Branch",
-            info: "300 Students"
+            title: 'Sohag Branch',
+            popup: '300 Students'
         },
         {
-            lat: 31.6090,
+            lat: 31.609,
             lng: 31.2472,
-            title: "Damietta School",
-            info: "150 Students"
+            title: 'Damietta School',
+            popup: '150 Students'
         }
     ];
 

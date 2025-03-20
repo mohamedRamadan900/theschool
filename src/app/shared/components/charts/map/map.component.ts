@@ -19,7 +19,7 @@ const iconDefault = L.icon({
 L.Marker.prototype.options.icon = iconDefault;
 
 export interface MapMarker {
-    id: string;
+    id?: string;
     lat: number;
     lng: number;
     title: string;
@@ -113,13 +113,14 @@ export class MapComponent implements AfterViewInit {
         this.selectedMarkers.set(markers);
         this.onMarkersSelect.emit(markers);
         this.leafletMarkers.forEach((leafletMarker, index) => {
-            const isSelected = markers.length === 0 || markers.some((m) => m.lat === this.markers()[index].lat && m.lng === this.markers()[index].lng);
+            const isSelected = markers.length === 0 || markers.some((marker) => marker.lat === this.markers()[index].lat && marker.lng === this.markers()[index].lng);
             leafletMarker.setStyle({
                 fillOpacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY,
                 opacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY
             });
         });
     }
+
 
     private resetMarkersOpacity(): void {
         if (this.selectedMarkers().length === 0) return;
@@ -142,11 +143,11 @@ export class MapComponent implements AfterViewInit {
                 fillOpacity: this.DEFAULT_OPACITY
             })
                 .bindPopup(marker.popup || marker.title, {})
-                // .bindTooltip(marker.title, {
-                //     permanent: false,
-                //     direction: 'top',
-                //     offset: L.point(0, -10)
-                // })
+                .bindTooltip(marker.popup, {
+                    permanent: false,
+                    direction: 'top',
+                    offset: L.point(0, -10)
+                })
                 .addTo(this.map);
 
             leafletMarker.on('click', () => {
