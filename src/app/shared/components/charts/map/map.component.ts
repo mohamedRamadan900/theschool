@@ -18,6 +18,7 @@ const iconDefault = L.icon({
 });
 L.Marker.prototype.options.icon = iconDefault;
 
+
 export interface MapMarker {
     lat: number;
     lng: number;
@@ -34,8 +35,8 @@ export interface MapMarker {
 export class MapComponent implements AfterViewInit {
     title = input<string>('');
     markers = input<MapMarker[]>([]);
-    center = input<[number, number]>([51.505, -0.09]); // Default to London
-    zoom = input<number>(13);
+    center = input<[number, number]>([26.8206, 30.8025]); // Default to Egypt
+    zoom = input<number>(4);
     height = input<string>('400px');
     @Output() onMarkerClick = new EventEmitter<MapMarker>();
 
@@ -48,14 +49,39 @@ export class MapComponent implements AfterViewInit {
 
     private initMap(): void {
         this.map = L.map('map').setView(this.center(), this.zoom());
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            // attribution: '© OpenStreetMap contributors'
-        }).addTo(this.map);
+        const tileLayers = {
+            default: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: '© OpenStreetMap contributors'
+            }),
+            streets: L.tileLayer('https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '© OpenStreetMap contributors'
+            }),
+            light: L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+                maxZoom: 20,
+                attribution: '© Stadia Maps, © OpenMapTiles, © OpenStreetMap contributors'
+            }),
+            topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                maxZoom: 17,
+                attribution: '© OpenStreetMap contributors, SRTM | Map style: © OpenTopoMap (CC-BY-SA)'
+            })
+        };
+
+        // Use the streets layer as the default:
+        tileLayers.light.addTo(this.map);
     }
 
     private addMarkers(): void {
         this.markers().forEach((marker) => {
-            const leafletMarker = L.marker([marker.lat, marker.lng])
+            const leafletMarker = L.circleMarker([marker.lat, marker.lng], {
+                radius: 8,
+                fillColor: '#0078D7', // Match marker color in the image
+                color: '#ffffff',
+                weight: 1,
+                opacity: .5,
+                fillOpacity: 0.8
+            })
                 .bindPopup(marker.popup || marker.title)
                 .addTo(this.map);
 
