@@ -18,7 +18,6 @@ const iconDefault = L.icon({
 });
 L.Marker.prototype.options.icon = iconDefault;
 
-
 export interface MapMarker {
     lat: number;
     lng: number;
@@ -38,7 +37,7 @@ export class MapComponent implements AfterViewInit {
     center = input<[number, number]>([26.8206, 30.8025]); // Default to Egypt
     zoom = input<number>(4);
     height = input<string>('400px');
-    @Output() onMarkerClick = new EventEmitter<MapMarker>();
+    @Output() onMarkerClick = new EventEmitter<MapMarker | MapMarker[]>();
 
     private map!: L.Map;
 
@@ -70,6 +69,13 @@ export class MapComponent implements AfterViewInit {
 
         // Use the streets layer as the default:
         tileLayers.light.addTo(this.map);
+
+        this.map.on('boxzoomend', (e: L.LeafletEvent) => {
+            const bounds = (e as any).boxZoomBounds;
+            const selectedMarkers = this.markers().filter((marker) => bounds.contains([marker.lat, marker.lng]));
+            // console.log('Selected markers:', selectedMarkers);
+            this.onMarkerClick.emit(selectedMarkers);
+        });
     }
 
     private addMarkers(): void {
@@ -79,7 +85,7 @@ export class MapComponent implements AfterViewInit {
                 fillColor: '#0078D7', // Match marker color in the image
                 color: '#ffffff',
                 weight: 1,
-                opacity: .5,
+                opacity: 0.5,
                 fillOpacity: 0.8
             })
                 .bindPopup(marker.popup || marker.title)
