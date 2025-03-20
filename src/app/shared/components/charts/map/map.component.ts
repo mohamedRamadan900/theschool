@@ -19,7 +19,7 @@ const iconDefault = L.icon({
 L.Marker.prototype.options.icon = iconDefault;
 
 export interface MapMarker {
-    id?: string;
+    id: string;
     lat: number;
     lng: number;
     title: string;
@@ -109,29 +109,25 @@ export class MapComponent implements AfterViewInit {
         });
     }
 
-    private resetMarkersOpacity(): void {
-        if (this.selectedMarkers().length == 0) {
-            return;
-        }
-        this.selectedMarkers.set([]);
-        this.onMarkersSelect.emit([]);
-        this.leafletMarkers.forEach((marker) => {
-            marker.setStyle({
-                fillOpacity: this.DEFAULT_OPACITY,
-                opacity: this.DEFAULT_OPACITY
-            });
-        });
-    }
-
-    private updateMarkersOpacity(selected: MapMarker[]) {
-        this.selectedMarkers.set(selected);
+    private selectMarkers(markers: MapMarker[]): void {
+        this.selectedMarkers.set(markers);
+        this.onMarkersSelect.emit(markers);
         this.leafletMarkers.forEach((leafletMarker, index) => {
-            const isSelected = this.selectedMarkers().some((m) => m.lat === this.markers()[index].lat && m.lng === this.markers()[index].lng);
+            const isSelected = markers.length === 0 || markers.some((m) => m.lat === this.markers()[index].lat && m.lng === this.markers()[index].lng);
             leafletMarker.setStyle({
                 fillOpacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY,
                 opacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY
             });
         });
+    }
+
+    private resetMarkersOpacity(): void {
+        if (this.selectedMarkers().length === 0) return;
+        this.selectMarkers([]);
+    }
+
+    private updateMarkersOpacity(selected: MapMarker[]): void {
+        this.selectMarkers(selected);
     }
 
     private addMarkers(): void {
@@ -154,8 +150,12 @@ export class MapComponent implements AfterViewInit {
                 .addTo(this.map);
 
             leafletMarker.on('click', () => {
-                this.onMarkersSelect.emit([marker]);
-                this.updateMarkersOpacity([marker]);
+                // Check if this marker is already selected
+                const isAlreadySelected = this.selectedMarkers().length === 1 && this.selectedMarkers()[0].lat === marker.lat && this.selectedMarkers()[0].lng === marker.lng;
+
+                if (!isAlreadySelected) {
+                    this.selectMarkers([marker]);
+                }
             });
 
             this.leafletMarkers.push(leafletMarker);
