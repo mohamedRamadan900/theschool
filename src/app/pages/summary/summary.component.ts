@@ -94,60 +94,70 @@ export class SummaryComponent {
 
     mapMarkers: MapMarker[] = [
         {   
+            id: 1,
             lat: 30.0444,
             lng: 31.2357,
             title: 'Cairo School',
             popup: '700 Students'
         },
         {
+            id: 2,
             lat: 31.2156,
             lng: 29.9553,
             title: 'Alexandria Branch',
             popup: '400 Students'
         },
         {
+            id: 3,
             lat: 25.6872,
             lng: 32.6396,
             title: 'Luxor Campus',
             popup: '300 Students'
         },
         {
+            id: 4,
             lat: 27.1801,
             lng: 31.1837,
             title: 'Asyut Academy',
             popup: '250 Students'
         },
         {
+            id: 5,
             lat: 30.5852,
             lng: 31.502,
             title: 'Zagazig Institute',
             popup: '200 Students'
         },
         {
+            id: 6,
             lat: 31.1321,
             lng: 33.8033,
             title: 'Port Said School',
             popup: '350 Students'
         },
         {
+            id: 7,
             lat: 29.3099,
             lng: 30.8418,
             title: 'Fayoum University',
             popup: '500 Students'
         },
         {
+            id: 8,
             lat: 31.0409,
             lng: 31.3785,
             title: 'Mansoura Campus',
             popup: '450 Students'
         },
         {
+            id: 9,
             lat: 26.556,
             lng: 31.6948,
             title: 'Sohag Branch',
             popup: '300 Students'
         },
         {
+            id: 10,
             lat: 31.609,
             lng: 31.2472,
             title: 'Damietta School',

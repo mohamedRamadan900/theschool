@@ -19,7 +19,7 @@ const iconDefault = L.icon({
 L.Marker.prototype.options.icon = iconDefault;
 
 export interface MapMarker {
-    id?: string;
+    id?: string | number;
     lat: number;
     lng: number;
     title: string;
@@ -111,7 +111,7 @@ export class MapComponent implements AfterViewInit {
 
     // Add this new method to handle marker IDs
     private getMarkerId(marker: MapMarker, index: number): string {
-        if (marker.id) return marker.id;
+        if (marker.id) return String(marker.id);
         // Generate a unique ID using coordinates and index as fallback
         return `marker_${marker.lat}_${marker.lng}_${index}`;
     }
