@@ -109,18 +109,26 @@ export class MapComponent implements AfterViewInit {
         });
     }
 
+    // Add this new method to handle marker IDs
+    private getMarkerId(marker: MapMarker, index: number): string {
+        if (marker.id) return marker.id;
+        // Generate a unique ID using coordinates and index as fallback
+        return `marker_${marker.lat}_${marker.lng}_${index}`;
+    }
+
     private selectMarkers(markers: MapMarker[]): void {
         this.selectedMarkers.set(markers);
         this.onMarkersSelect.emit(markers);
         this.leafletMarkers.forEach((leafletMarker, index) => {
-            const isSelected = markers.length === 0 || markers.some((marker) => marker.lat === this.markers()[index].lat && marker.lng === this.markers()[index].lng);
+            const currentMarker = this.markers()[index];
+            const currentMarkerId = this.getMarkerId(currentMarker, index);
+            const isSelected = markers.length === 0 || markers.some((marker) => this.getMarkerId(marker, this.markers().indexOf(marker)) === currentMarkerId);
             leafletMarker.setStyle({
                 fillOpacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY,
                 opacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY
             });
         });
     }
-
 
     private resetMarkersOpacity(): void {
         if (this.selectedMarkers().length === 0) return;
@@ -133,7 +141,8 @@ export class MapComponent implements AfterViewInit {
 
     private addMarkers(): void {
         this.leafletMarkers = []; // Clear existing markers
-        this.markers().forEach((marker) => {
+        this.markers().forEach((marker, index) => {
+            const markerId = this.getMarkerId(marker, index);
             const leafletMarker = L.circleMarker([marker.lat, marker.lng], {
                 radius: 8,
                 fillColor: '#0078D7',
@@ -151,8 +160,7 @@ export class MapComponent implements AfterViewInit {
                 .addTo(this.map);
 
             leafletMarker.on('click', () => {
-                // Check if this marker is already selected
-                const isAlreadySelected = this.selectedMarkers().length === 1 && this.selectedMarkers()[0].lat === marker.lat && this.selectedMarkers()[0].lng === marker.lng;
+                const isAlreadySelected = this.selectedMarkers().length === 1 && this.getMarkerId(this.selectedMarkers()[0], this.markers().indexOf(this.selectedMarkers()[0])) === markerId;
 
                 if (!isAlreadySelected) {
                     this.selectMarkers([marker]);
