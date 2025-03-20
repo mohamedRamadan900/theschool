@@ -19,6 +19,7 @@ const iconDefault = L.icon({
 L.Marker.prototype.options.icon = iconDefault;
 
 export interface MapMarker {
+    id?: string;
     lat: number;
     lng: number;
     title: string;
@@ -33,8 +34,8 @@ export interface MapMarker {
 })
 export class MapComponent implements AfterViewInit {
     // Add default opacity constants
-    private readonly DEFAULT_OPACITY = 0.8;
-    private readonly DIMMED_OPACITY = 0.2;
+    private readonly DEFAULT_OPACITY = 0.75;
+    private readonly DIMMED_OPACITY = 0.3;
 
     private selectedMarkers = signal<MapMarker[]>([]);
     title = input<string>('');
@@ -138,13 +139,18 @@ export class MapComponent implements AfterViewInit {
         this.markers().forEach((marker) => {
             const leafletMarker = L.circleMarker([marker.lat, marker.lng], {
                 radius: 8,
-                fillColor: '#0078D7', // Match marker color in the image
+                fillColor: '#0078D7',
                 color: '#ffffff',
                 weight: 1,
                 opacity: this.DEFAULT_OPACITY,
                 fillOpacity: this.DEFAULT_OPACITY
             })
-                .bindPopup(marker.popup || marker.title)
+                .bindPopup(marker.popup || marker.title, {})
+                // .bindTooltip(marker.title, {
+                //     permanent: false,
+                //     direction: 'top',
+                //     offset: L.point(0, -10)
+                // })
                 .addTo(this.map);
 
             leafletMarker.on('click', () => {
