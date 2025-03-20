@@ -32,14 +32,20 @@ export interface MapMarker {
     imports: [CardComponent]
 })
 export class MapComponent implements AfterViewInit {
+    // Add default opacity constants
+    private readonly DEFAULT_OPACITY = 0.8;
+    private readonly DIMMED_OPACITY = 0.2;
+
+    private selectedMarkers = signal<MapMarker[]>([]);
     title = input<string>('');
     markers = input<MapMarker[]>([]);
     center = input<[number, number]>([26.8206, 30.8025]); // Default to Egypt
     zoom = input<number>(4);
     height = input<string>('400px');
-    @Output() onMarkerClick = new EventEmitter<MapMarker | MapMarker[]>();
+    @Output() onMarkerClick = new EventEmitter<MapMarker[]>();
 
     private map!: L.Map;
+    private leafletMarkers: L.CircleMarker[] = [];
 
     ngAfterViewInit(): void {
         this.initMap();
@@ -70,30 +76,74 @@ export class MapComponent implements AfterViewInit {
         // Use the streets layer as the default:
         tileLayers.light.addTo(this.map);
 
+        // Add map click handler
+        this.map.on('click', (e: L.LeafletMouseEvent) => {
+            const clickedElement = e.originalEvent.target as HTMLElement;
+            // Only reset if we clicked the map itself (not markers or popups)
+            if (!clickedElement.closest('.leaflet-marker-icon') && !clickedElement.closest('.leaflet-popup')) {
+                this.resetMarkersOpacity();
+            }
+        });
+
         this.map.on('boxzoomend', (e: L.LeafletEvent) => {
             const bounds = (e as any).boxZoomBounds;
             const selectedMarkers = this.markers().filter((marker) => bounds.contains([marker.lat, marker.lng]));
-            // console.log('Selected markers:', selectedMarkers);
+
+            // Prevent zoom
+            this.map.setView(this.map.getCenter(), this.map.getZoom());
+
+            // Update marker opacities
+            this.updateMarkersOpacity(selectedMarkers);
+
             this.onMarkerClick.emit(selectedMarkers);
         });
     }
 
+    private resetMarkersOpacity(): void {
+        if (this.selectedMarkers().length == 0) {
+            return;
+        }
+        this.selectedMarkers.set([]);
+        this.onMarkerClick.emit([]);
+        this.leafletMarkers.forEach((marker) => {
+            marker.setStyle({
+                fillOpacity: this.DEFAULT_OPACITY,
+                opacity: this.DEFAULT_OPACITY
+            });
+        });
+    }
+
+    private updateMarkersOpacity(selected: MapMarker[]) {
+        this.selectedMarkers.set(selected);
+        this.leafletMarkers.forEach((leafletMarker, index) => {
+            const isSelected = this.selectedMarkers().some((m) => m.lat === this.markers()[index].lat && m.lng === this.markers()[index].lng);
+            leafletMarker.setStyle({
+                fillOpacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY,
+                opacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY
+            });
+        });
+    }
+
     private addMarkers(): void {
+        this.leafletMarkers = []; // Clear existing markers
         this.markers().forEach((marker) => {
             const leafletMarker = L.circleMarker([marker.lat, marker.lng], {
                 radius: 8,
                 fillColor: '#0078D7', // Match marker color in the image
                 color: '#ffffff',
                 weight: 1,
-                opacity: 0.5,
-                fillOpacity: 0.8
+                opacity: this.DEFAULT_OPACITY,
+                fillOpacity: this.DEFAULT_OPACITY
             })
                 .bindPopup(marker.popup || marker.title)
                 .addTo(this.map);
 
             leafletMarker.on('click', () => {
-                this.onMarkerClick.emit(marker);
+                this.onMarkerClick.emit([marker]);
+                this.updateMarkersOpacity([marker]);
             });
+
+            this.leafletMarkers.push(leafletMarker);
         });
     }
 }
