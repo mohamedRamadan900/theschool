@@ -147,29 +147,49 @@ export class MapComponent implements AfterViewInit {
     private async addMarkers(): Promise<void> {
         this.leafletMarkers = []; // Clear existing markers
 
-        for (let i = 0; i < this.markers().length; i++) {
-            const marker = this.markers()[i];
-            let lat = marker.lat;
-            let lng = marker.lng;
+        // First, prepare all geocoding promises
+        const markersPromises = this.markers().map(async (marker, index) => {
+            try {
+                let lat = marker.lat;
+                let lng = marker.lng;
 
-            // If address is provided but no coordinates, geocode the address
-            if (marker.address && (!lat || !lng)) {
-                const coordinates = await firstValueFrom(this.geocodingService.geocodeAddress(marker.address));
-                if (coordinates) {
-                    [lat, lng] = coordinates;
-                } else {
-                    console.warn(`Could not geocode address: ${marker.address}`);
-                    continue;
+                if (marker.address && (!lat || !lng)) {
+                    const coordinates = await firstValueFrom(this.geocodingService.geocodeAddress(marker.address));
+                    if (coordinates) {
+                        [lat, lng] = coordinates;
+                    } else {
+                        throw new Error(`Could not geocode address: ${marker.address}`);
+                    }
                 }
+
+                if (!lat || !lng) {
+                    throw new Error('Marker missing coordinates');
+                }
+
+                return { ...marker, lat, lng, index };
+            } catch (error) {
+                console.warn(`Failed to process marker ${index}:`, error);
+                return null;
+            }
+        });
+
+        // Wait for all geocoding requests to complete, handling both success and failure
+        const results = await Promise.allSettled(markersPromises);
+
+        // Add markers to the map
+        results.forEach((result, index) => {
+            if (result.status === 'rejected') {
+                console.warn(`Marker ${index} failed:`, result.reason);
+                return;
             }
 
-            // Skip if we don't have valid coordinates
-            if (!lat || !lng) {
-                console.warn('Marker missing coordinates:', marker);
-                continue;
-            }
+            const markerData = result.value;
+            if (!markerData) return;
 
-            const markerId = this.getMarkerId(marker, i);
+            const { lat, lng, index: markerIndex } = markerData;
+            const marker = this.markers()[markerIndex];
+            const markerId = this.getMarkerId(marker, markerIndex);
+
             const leafletMarker = L.circleMarker([lat, lng], {
                 radius: 8,
                 fillColor: '#0078D7',
@@ -186,7 +206,6 @@ export class MapComponent implements AfterViewInit {
                 })
                 .addTo(this.map);
 
-            // ...existing code for click handler...
             leafletMarker.on('click', () => {
                 const isAlreadySelected = this.selectedMarkers().length === 1 && this.getMarkerId(this.selectedMarkers()[0], this.markers().indexOf(this.selectedMarkers()[0])) === markerId;
 
@@ -196,6 +215,6 @@ export class MapComponent implements AfterViewInit {
             });
 
             this.leafletMarkers.push(leafletMarker);
-        }
+        });
     }
 }
