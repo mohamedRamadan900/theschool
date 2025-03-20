@@ -44,8 +44,7 @@ export class MapComponent implements AfterViewInit {
     private selectedMarkers = signal<MapMarker[]>([]);
     title = input<string>('');
     markers = input<MapMarker[]>([]);
-    private mapMarkers: MapMarker[];
-    private geocodedMarkers: MapMarker[] = [];
+    private mapMarkers: MapMarker[] = []; // Initialize as empty array
     center = input<[number, number]>([26.8206, 30.8025]); // Default to Egypt
     zoom = input<number>(4);
     height = input<string>('400px');
@@ -105,7 +104,7 @@ export class MapComponent implements AfterViewInit {
 
         this.map.on('boxzoomend', (e: L.LeafletEvent) => {
             const bounds = (e as any).boxZoomBounds;
-            const selectedMarkers = this.geocodedMarkers.filter((marker) => {
+            const selectedMarkers = this.mapMarkers.filter((marker) => {
                 return bounds.contains([marker.lat, marker.lng]);
             });
 
@@ -124,14 +123,16 @@ export class MapComponent implements AfterViewInit {
         // Generate a unique ID using coordinates and index as fallback
         return `marker_${marker.lat}_${marker.lng}_${index}`;
     }
-
+    
     private selectMarkers(markers: MapMarker[]): void {
         this.selectedMarkers.set(markers);
         this.onMarkersSelect.emit(markers);
         this.leafletMarkers.forEach((leafletMarker, index) => {
-            const currentMarker = this.markers()[index];
+            const currentMarker = this.mapMarkers[index];
             const currentMarkerId = this.getMarkerId(currentMarker, index);
-            const isSelected = markers.length === 0 || markers.some((marker) => this.getMarkerId(marker, this.markers().indexOf(marker)) === currentMarkerId);
+            const isSelected = markers.length === 0 || markers.some((marker) => 
+                this.getMarkerId(marker, this.mapMarkers.indexOf(marker)) === currentMarkerId
+            );
             leafletMarker.setStyle({
                 fillOpacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY,
                 opacity: isSelected ? this.DEFAULT_OPACITY : this.DIMMED_OPACITY
@@ -150,7 +151,7 @@ export class MapComponent implements AfterViewInit {
 
     private async addMarkers(): Promise<void> {
         this.leafletMarkers = []; // Clear existing markers
-        this.geocodedMarkers = []; // Clear existing geocoded markers
+        this.mapMarkers = []; // Clear existing valid markers
 
         // First, prepare all geocoding promises
         const markersPromises = this.markers().map(async (marker, index) => {
@@ -171,9 +172,9 @@ export class MapComponent implements AfterViewInit {
                     throw new Error('Marker missing coordinates');
                 }
 
-                const geocodedMarker = { ...marker, lat, lng, index };
-                this.geocodedMarkers.push(geocodedMarker);
-                return geocodedMarker;
+                const validMarker = { ...marker, lat, lng, index };
+                this.mapMarkers.push(validMarker);
+                return validMarker;
             } catch (error) {
                 console.warn(`Failed to process marker ${index}:`, error);
                 return null;
