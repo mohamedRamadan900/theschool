@@ -1,3 +1,7 @@
-<app-card [title]="title()" class="h-full">
-    <div id="map" [style.height]="height()" class="h-full w-full rounded-lg shadow-md"></div>
+<app-card [title]="title()" class="h-full" [class.fullscreen]="isFullScreen()">
+    <div id="map" [style.height]="height()" class="h-full w-full rounded-lg shadow-md relative">
+        <button (click)="toggleFullScreen()" class="flex absolute top-4 right-4 z-[1000] bg-white p-2 rounded-lg shadow-md hover:bg-gray-100">
+            <i [class]="isFullScreen() ? 'pi pi-expand' : 'pi pi-expand'"></i>
+        </button>
+    </div>
 </app-card>

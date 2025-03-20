@@ -47,6 +47,15 @@ export class MapComponent implements AfterViewInit {
     private map!: L.Map;
     private leafletMarkers: L.CircleMarker[] = [];
 
+    isFullScreen = signal<boolean>(false);
+
+    toggleFullScreen(): void {
+        this.isFullScreen.set(!this.isFullScreen());
+        setTimeout(() => {
+            this.map.invalidateSize();
+        }, 100);
+    }
+
     ngAfterViewInit(): void {
         this.initMap();
         this.addMarkers();
