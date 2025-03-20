@@ -42,7 +42,7 @@ export class MapComponent implements AfterViewInit {
     center = input<[number, number]>([26.8206, 30.8025]); // Default to Egypt
     zoom = input<number>(4);
     height = input<string>('400px');
-    @Output() onMarkerClick = new EventEmitter<MapMarker[]>();
+    @Output() onMarkersSelect = new EventEmitter<MapMarker[]>();
 
     private map!: L.Map;
     private leafletMarkers: L.CircleMarker[] = [];
@@ -95,7 +95,7 @@ export class MapComponent implements AfterViewInit {
             // Update marker opacities
             this.updateMarkersOpacity(selectedMarkers);
 
-            this.onMarkerClick.emit(selectedMarkers);
+            this.onMarkersSelect.emit(selectedMarkers);
         });
     }
 
@@ -104,7 +104,7 @@ export class MapComponent implements AfterViewInit {
             return;
         }
         this.selectedMarkers.set([]);
-        this.onMarkerClick.emit([]);
+        this.onMarkersSelect.emit([]);
         this.leafletMarkers.forEach((marker) => {
             marker.setStyle({
                 fillOpacity: this.DEFAULT_OPACITY,
@@ -139,7 +139,7 @@ export class MapComponent implements AfterViewInit {
                 .addTo(this.map);
 
             leafletMarker.on('click', () => {
-                this.onMarkerClick.emit([marker]);
+                this.onMarkersSelect.emit([marker]);
                 this.updateMarkersOpacity([marker]);
             });
 

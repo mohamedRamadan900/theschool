@@ -161,7 +161,7 @@ export class SummaryComponent {
         console.log('Filter changed', filter);
     }
 
-    onMapMarkerClick(marker: any) {
+    onMapMarkersSelection(marker: any) {
         console.log('Marker clicked:', marker);
     }
 }
