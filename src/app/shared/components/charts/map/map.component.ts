@@ -44,6 +44,8 @@ export class MapComponent implements AfterViewInit {
     private selectedMarkers = signal<MapMarker[]>([]);
     title = input<string>('');
     markers = input<MapMarker[]>([]);
+    private mapMarkers: MapMarker[];
+    private geocodedMarkers: MapMarker[] = [];
     center = input<[number, number]>([26.8206, 30.8025]); // Default to Egypt
     zoom = input<number>(4);
     height = input<string>('400px');
@@ -103,7 +105,9 @@ export class MapComponent implements AfterViewInit {
 
         this.map.on('boxzoomend', (e: L.LeafletEvent) => {
             const bounds = (e as any).boxZoomBounds;
-            const selectedMarkers = this.markers().filter((marker) => bounds.contains([marker.lat, marker.lng]));
+            const selectedMarkers = this.geocodedMarkers.filter((marker) => {
+                return bounds.contains([marker.lat, marker.lng]);
+            });
 
             // Prevent zoom
             this.map.setView(this.map.getCenter(), this.map.getZoom());
@@ -146,6 +150,7 @@ export class MapComponent implements AfterViewInit {
 
     private async addMarkers(): Promise<void> {
         this.leafletMarkers = []; // Clear existing markers
+        this.geocodedMarkers = []; // Clear existing geocoded markers
 
         // First, prepare all geocoding promises
         const markersPromises = this.markers().map(async (marker, index) => {
@@ -166,7 +171,9 @@ export class MapComponent implements AfterViewInit {
                     throw new Error('Marker missing coordinates');
                 }
 
-                return { ...marker, lat, lng, index };
+                const geocodedMarker = { ...marker, lat, lng, index };
+                this.geocodedMarkers.push(geocodedMarker);
+                return geocodedMarker;
             } catch (error) {
                 console.warn(`Failed to process marker ${index}:`, error);
                 return null;
@@ -189,7 +196,6 @@ export class MapComponent implements AfterViewInit {
             const { lat, lng, index: markerIndex } = markerData;
             const marker = this.markers()[markerIndex];
             const markerId = this.getMarkerId(marker, markerIndex);
-
             const leafletMarker = L.circleMarker([lat, lng], {
                 radius: 8,
                 fillColor: '#0078D7',
