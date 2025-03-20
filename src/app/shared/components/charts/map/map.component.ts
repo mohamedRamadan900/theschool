@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit, signal, 
 import * as L from 'leaflet';
 import { CardComponent } from '../../layout/card/card.component';
 import { firstValueFrom } from 'rxjs';
-import { GeocodingService } from './services/geocoding.service';
+import { GeocodingService } from './services/geocoding.service.improved';
 
 // Add this fix for marker icons //Customize Marker
 // const iconRetinaUrl = 'assets/map/marker.png';
