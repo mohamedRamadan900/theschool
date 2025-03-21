@@ -1,7 +1,7 @@
 <main class="">
     <app-summary-stats></app-summary-stats>
     <hr />
-    <section class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 gap-6">
+    <section class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 gap-6 [&>*]:min-h-[500px]">
         <app-stacked-bar-chart [chartConfig]="studentsByYearGroupBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
 
         <div class="grid grid-cols-1 gap-4">
@@ -10,7 +10,7 @@
         </div>
 
         <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
-        <!-- <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart> -->
+        <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
 
         <div class="grid grid-cols-1 gap-4 lg:col-span-1 xl:col-span-2">
             <app-map title="Student Distributions" [height]="'300px'" [markers]="mapMarkersWithAddress" (onMarkersSelect)="onMapMarkersSelection($event)"></app-map>

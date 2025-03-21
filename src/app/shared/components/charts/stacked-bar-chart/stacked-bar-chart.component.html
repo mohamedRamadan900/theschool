@@ -1,7 +1,12 @@
 <app-card [title]="title">
-    @if (showCustomLegend) {
-        <app-legend [legendData]="legendData" (legendItemClick)="handleChartLegendClick($event)"></app-legend>
-    }
-
-    <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType" [plugins]="plugins"> </canvas>
+    <div class="flex-1 flex flex-col gap-1 h-full">
+        <div>
+            @if (showCustomLegend) {
+                <app-legend [class.hidden]="showCustomLegend" [legendData]="legendData" (legendItemClick)="handleChartLegendClick($event)"></app-legend>
+            }
+        </div>
+        <div class="chat-container">
+            <canvas baseChart [data]="barChartData" [options]="barChartOptions" [type]="barChartType" [plugins]="plugins"> </canvas>
+        </div>
+    </div>
 </app-card>

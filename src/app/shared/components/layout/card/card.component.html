@@ -1,7 +1,8 @@
-<div class="border border-primary rounded-lg" [class.p-4]="!hidePadding()">
+<div class="border border-primary rounded-lg h-full flex flex-col" [class.p-4]="!hidePadding()">
     @if (title()) {
-        <h4 class="text-base font-bold">{{ title() }}</h4>
+        <h4 class="text-base font-bold mb-1 shrink-0">{{ title() }}</h4>
     }
-
-    <ng-content></ng-content>
+    <!-- <div class="flex-1"> -->
+        <ng-content></ng-content>
+    <!-- </div> -->
 </div>

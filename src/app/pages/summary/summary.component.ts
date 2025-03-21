@@ -34,7 +34,6 @@ export class SummaryComponent {
         direction: 'horizontal',
         showTotals: false,
         hideDataLabels: false,
-        aspectRatio: 0.45
     };
     ethicityBarChart: StackedBarChartConfig = {
         // id: 'ethicityBarChart',
@@ -51,7 +50,6 @@ export class SummaryComponent {
         direction: 'horizontal',
         showTotals: false,
         hideDataLabels: false,
-        aspectRatio: 0.84,
         isDataPercentage: true,
         showLegend: false
     };
@@ -87,7 +85,6 @@ export class SummaryComponent {
         direction: 'horizontal',
         showTotals: false,
         hideDataLabels: false,
-        aspectRatio: 0.44,
         isDataPercentage: true,
         showLegend: false
     };
