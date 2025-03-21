@@ -91,7 +91,7 @@ export class MapComponent implements AfterViewInit {
         };
 
         // Use the streets layer as the default:
-        tileLayers.light.addTo(this.map);
+        tileLayers.default.addTo(this.map);
 
         // Add map click handler
         this.map.on('click', (e: L.LeafletMouseEvent) => {
