@@ -34,6 +34,7 @@ export class SummaryComponent {
         direction: 'horizontal',
         showTotals: false,
         hideDataLabels: false,
+        showLegend: true
     };
     ethicityBarChart: StackedBarChartConfig = {
         // id: 'ethicityBarChart',
@@ -90,7 +91,7 @@ export class SummaryComponent {
     };
 
     mapMarkers: MapMarker[] = [
-        {   
+        {
             id: 1,
             lat: 30.0444,
             lng: 31.2357,
@@ -163,7 +164,7 @@ export class SummaryComponent {
     ];
 
     mapMarkersWithAddress: MapMarker[] = [
-        {   
+        {
             id: 1,
             title: 'Cairo School',
             popup: '700 Students',
