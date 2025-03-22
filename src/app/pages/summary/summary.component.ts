@@ -7,7 +7,7 @@ import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/comp
 import { StackedBarChart } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
 import { PieChartConfig } from '../../shared/components/charts/pie-chart/pie-chart.model';
 import { MapComponent, MapMarker } from '../../shared/components/charts/map/map.component';
-import { TableComponent } from "../../shared/components/charts/table/table.component";
+import { TableComponent } from '../../shared/components/charts/table/table.component';
 @Component({
     selector: 'app-summary',
     imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent, TableComponent],
@@ -229,41 +229,46 @@ export class SummaryComponent {
 
     studentDirectoryTable = {
         columns: [
+            // { key: 'id', label: 'ID', sortable: true },
             { key: 'fullName', label: 'Full Name', sortable: true },
-            { key: 'attendance', label: 'Att %', sortable: true, 
-              formatter: (value: number) => `${value}%` }
+            { key: 'attendance', label: 'Att %', sortable: true, showPercent: true }
         ],
         rows: [
-            { fullName: 'John Smith', attendance: 98.5 },
-            { fullName: 'Sarah Johnson', attendance: 95.2 },
-            { fullName: 'Michael Brown', attendance: 97.8 },
-            { fullName: 'Emily Davis', attendance: 94.3 },
-            { fullName: 'James Wilson', attendance: 96.7 },
-            { fullName: 'John Smith', attendance: 98.5 },
-            { fullName: 'Sarah Johnson', attendance: 95.2 },
-            { fullName: 'Michael Brown', attendance: 97.8 },
-            { fullName: 'Emily Davis', attendance: 94.3 },
-            { fullName: 'James Wilson', attendance: 96.7 },
-            { fullName: 'John Smith', attendance: 98.5 },
-            { fullName: 'Sarah Johnson', attendance: 95.2 },
-            { fullName: 'Michael Brown', attendance: 97.8 },
-            { fullName: 'Emily Davis', attendance: 94.3 },
-            { fullName: 'James Wilson', attendance: 96.7 },
-            { fullName: 'John Smith', attendance: 98.5 },
-            { fullName: 'Sarah Johnson', attendance: 95.2 },
-            { fullName: 'Michael Brown', attendance: 97.8 },
-            { fullName: 'Emily Davis', attendance: 94.3 },
-            { fullName: 'James Wilson', attendance: 96.7 },
-            { fullName: 'John Smith', attendance: 98.5 },
-            { fullName: 'Sarah Johnson', attendance: 95.2 },
-            { fullName: 'Michael Brown', attendance: 97.8 },
-            { fullName: 'Emily Davis', attendance: 94.3 },
-            { fullName: 'James Wilson', attendance: 96.7 },
-            { fullName: 'John Smith', attendance: 98.5 },
-            { fullName: 'Sarah Johnson', attendance: 95.2 },
-            { fullName: 'Michael Brown', attendance: 97.8 },
-            { fullName: 'Emily Davis', attendance: 94.3 },
-            { fullName: 'James Wilson', attendance: 96.7 },
+            { id: 1, fullName: 'John Smith', attendance: 95.5 },
+            { id: 2, fullName: 'Sarah Johnson', attendance: 99.0 },
+            { id: 3, fullName: 'Michael Brown', attendance: 45.7 },
+            { id: 4, fullName: 'Emily Davis', attendance: 87.3 },
+            { id: 5, fullName: 'James Wilson', attendance: 32.8 },
+            { id: 6, fullName: 'Jessica Taylor', attendance: 76.1 },
+            { id: 7, fullName: 'William Anderson', attendance: 53.9 },
+            { id: 8, fullName: 'Emma Martinez', attendance: 97.8 },
+            { id: 9, fullName: 'David Thompson', attendance: 65.2 },
+            { id: 10, fullName: 'Sophia Garcia', attendance: 88.5 },
+            { id: 11, fullName: 'Daniel Lee', attendance: 34.3 },
+            { id: 12, fullName: 'Olivia Moore', attendance: 96.7 },
+            { id: 13, fullName: 'Alexander White', attendance: 43.1 },
+            { id: 14, fullName: 'Isabella Clark', attendance: 77.5 },
+            { id: 15, fullName: 'Matthew Hall', attendance: 55.9 },
+            { id: 1, fullName: 'John Smith', attendance: 95.5 },
+            { id: 2, fullName: 'Sarah Johnson', attendance: 99.0 },
+            { id: 3, fullName: 'Michael Brown', attendance: 45.7 },
+            { id: 4, fullName: 'Emily Davis', attendance: 87.3 },
+            { id: 5, fullName: 'James Wilson', attendance: 32.8 },
+            { id: 6, fullName: 'Jessica Taylor', attendance: 76.1 },
+            { id: 7, fullName: 'William Anderson', attendance: 53.9 },
+            { id: 8, fullName: 'Emma Martinez', attendance: 97.8 },
+            { id: 9, fullName: 'David Thompson', attendance: 65.2 },
+            { id: 10, fullName: 'Sophia Garcia', attendance: 88.5 },
+            { id: 11, fullName: 'Daniel Lee', attendance: 34.3 },
+            { id: 12, fullName: 'Olivia Moore', attendance: 96.7 },
+            { id: 13, fullName: 'Alexander White', attendance: 43.1 },
+            { id: 14, fullName: 'Isabella Clark', attendance: 77.5 },
+            { id: 15, fullName: 'Matthew Hall', attendance: 55.9 },
+            { id: 7, fullName: 'William Anderson', attendance: 53.9 },
+            { id: 8, fullName: 'Emma Martinez', attendance: 97.8 },
+            { id: 9, fullName: 'David Thompson', attendance: 65.2 },
+            { id: 10, fullName: 'Sophia Garcia', attendance: 88.5 },
+            { id: 11, fullName: 'Daniel Lee', attendance: 34.3 }
         ]
     };
 
@@ -275,5 +280,12 @@ export class SummaryComponent {
 
     onMapMarkersSelection(marker: any) {
         console.log('Marker clicked:', marker);
+    }
+
+    onTableSelection(selected: any): void {
+        console.log(selected);
+    }
+    onTableSelectionReset(selected: any): void {
+        console.log(selected);
     }
 }

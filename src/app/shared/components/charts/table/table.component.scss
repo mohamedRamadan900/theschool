@@ -5,7 +5,7 @@
         
         th,
         td {
-            padding: 0.5rem;
+            padding: 0.2rem;
             text-align: left;
             // border-bottom: 1px solid #dee2e6;
         }
@@ -24,7 +24,17 @@
             }
         }
         tbody tr {
-            cursor: default;
+            cursor: pointer;
+            border-bottom: 1px solid #ebecee;
+
+            &.selected-row {
+                background-color: #acacad !important;
+                // color: white;
+            }
+
+            &.unselected-row {
+                opacity: 0.7;
+            }
 
             &:nth-child(even) {
                 background-color: #ebecee;
@@ -36,4 +46,20 @@
             transition: background-color 0.3s ease;
         }
     }
+}
+
+.percent-high {
+    background-color: #86efac; // Light green
+}
+
+.percent-medium {
+    background-color: #fde68a; // Light yellow
+}
+
+.percent-low {
+    background-color: #fca5a5; // Light red
+}
+
+.percent-very-low {
+    background-color: #f87171; // Darker red
 }

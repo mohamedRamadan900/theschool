@@ -3,7 +3,9 @@ export interface TableColumn {
     label: string;
     sortable?: boolean;
     width?: string;
-    formatter?: (value: any, row?: any) => string | number;
+    showPercent?: boolean; // Show Percent %
+    showPercentColors?:boolean;
+    // formatter?: (value: any, row?: any) => string | number;
     cellClass?: string;
 }
 
