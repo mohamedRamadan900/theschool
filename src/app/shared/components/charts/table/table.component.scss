@@ -1,0 +1,39 @@
+:host {
+    .my-table {
+        width: 100%;
+        border-collapse: collapse;
+        
+        th,
+        td {
+            padding: 0.5rem;
+            text-align: left;
+            // border-bottom: 1px solid #dee2e6;
+        }
+
+        th {
+            border-bottom: 1px solid #dee2e6;
+            // background: #f8f9fa;
+            font-weight: 600;
+
+            &.sortable {
+                cursor: pointer;
+
+                &:hover {
+                    background-color: #e9ecef;
+                }
+            }
+        }
+        tbody tr {
+            cursor: default;
+
+            &:nth-child(even) {
+                background-color: #ebecee;
+            }
+        }
+
+        tbody tr:hover {
+            background-color: #acacad;
+            transition: background-color 0.3s ease;
+        }
+    }
+}

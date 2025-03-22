@@ -6,7 +6,7 @@ import { CardComponent } from '../../layout/card/card.component';
 import { cloneDeep } from 'lodash';
 import { convertToRgba } from '../../../utils/colorHelper';
 import { LegendComponent } from '../legend/legend/legend.component';
-import { PieChartConfig } from '../../../models/pie-chart.model';
+import { PieChartConfig } from './pie-chart.model';
 
 // Register ALL Chart.js components and the datalabels plugin
 Chart.register(...registerables, ChartDataLabels);

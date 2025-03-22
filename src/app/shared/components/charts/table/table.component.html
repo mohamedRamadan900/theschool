@@ -1,0 +1,30 @@
+<app-card [title]="title()">
+    <div class="h-full overflow-y-auto">
+        <table class="table-auto my-table min-w-full">
+            <thead>
+                <tr>
+                    @for (column of renderedTableData().columns; track column.key) {
+                        <th [class.cursor-pointer]="column.sortable" (click)="onSort(column)" class="px-4 py-2 text-left">
+                            {{ column.label }}
+
+                            @if (sortColumn === column.key) {
+                                <span class="ml-1">{{ sortDirection === 'asc' ? '↑' : '↓' }}</span>
+                            }
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody class="overflow-y-scroll">
+                @for (row of renderedTableData().rows; track $index) {
+                    <tr>
+                        @for (column of renderedTableData().columns; track column.key) {
+                            <td class="px-4 py-2">
+                                {{ column.formatter ? column.formatter(row[column.key], row) : row[column.key] }}
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</app-card>

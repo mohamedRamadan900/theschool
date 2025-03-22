@@ -3,13 +3,14 @@ import { SummaryStatsComponent } from './components/stats/stats.component';
 import { PieChartComponent } from '../../shared/components/charts/pie-chart/pie-chart.component';
 import { ChartColorsArray } from '../../shared/components/charts/chart-colors';
 import { SummaryService } from './services/summary.service';
-import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/models/stacked-bar-chart-model';
+import { IStackedBarChartFilter, StackedBarChartConfig } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart-model';
 import { StackedBarChart } from '../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
-import { PieChartConfig } from '../../shared/models/pie-chart.model';
+import { PieChartConfig } from '../../shared/components/charts/pie-chart/pie-chart.model';
 import { MapComponent, MapMarker } from '../../shared/components/charts/map/map.component';
+import { TableComponent } from "../../shared/components/charts/table/table.component";
 @Component({
     selector: 'app-summary',
-    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent],
+    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent, TableComponent],
     templateUrl: './summary.component.html',
     styleUrl: './summary.component.scss',
     providers: [SummaryService]
@@ -225,6 +226,46 @@ export class SummaryComponent {
             address: '3 Port Said Street, Ezbet El-Borg, Damietta Governorate 34517, Egypt'
         }
     ];
+
+    studentDirectoryTable = {
+        columns: [
+            { key: 'fullName', label: 'Full Name', sortable: true },
+            { key: 'attendance', label: 'Att %', sortable: true, 
+              formatter: (value: number) => `${value}%` }
+        ],
+        rows: [
+            { fullName: 'John Smith', attendance: 98.5 },
+            { fullName: 'Sarah Johnson', attendance: 95.2 },
+            { fullName: 'Michael Brown', attendance: 97.8 },
+            { fullName: 'Emily Davis', attendance: 94.3 },
+            { fullName: 'James Wilson', attendance: 96.7 },
+            { fullName: 'John Smith', attendance: 98.5 },
+            { fullName: 'Sarah Johnson', attendance: 95.2 },
+            { fullName: 'Michael Brown', attendance: 97.8 },
+            { fullName: 'Emily Davis', attendance: 94.3 },
+            { fullName: 'James Wilson', attendance: 96.7 },
+            { fullName: 'John Smith', attendance: 98.5 },
+            { fullName: 'Sarah Johnson', attendance: 95.2 },
+            { fullName: 'Michael Brown', attendance: 97.8 },
+            { fullName: 'Emily Davis', attendance: 94.3 },
+            { fullName: 'James Wilson', attendance: 96.7 },
+            { fullName: 'John Smith', attendance: 98.5 },
+            { fullName: 'Sarah Johnson', attendance: 95.2 },
+            { fullName: 'Michael Brown', attendance: 97.8 },
+            { fullName: 'Emily Davis', attendance: 94.3 },
+            { fullName: 'James Wilson', attendance: 96.7 },
+            { fullName: 'John Smith', attendance: 98.5 },
+            { fullName: 'Sarah Johnson', attendance: 95.2 },
+            { fullName: 'Michael Brown', attendance: 97.8 },
+            { fullName: 'Emily Davis', attendance: 94.3 },
+            { fullName: 'James Wilson', attendance: 96.7 },
+            { fullName: 'John Smith', attendance: 98.5 },
+            { fullName: 'Sarah Johnson', attendance: 95.2 },
+            { fullName: 'Michael Brown', attendance: 97.8 },
+            { fullName: 'Emily Davis', attendance: 94.3 },
+            { fullName: 'James Wilson', attendance: 96.7 },
+        ]
+    };
 
     constructor(private summaryService: SummaryService) {}
 

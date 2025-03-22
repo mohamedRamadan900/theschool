@@ -1,4 +1,4 @@
-<ul class="flex gap-3 text-sm">
+<ul class="flex gap-3 text-sm mb-4">
     @for (item of legendData; track $index) {
         @if (item.label) {
             <li class="flex items-center gap-1 cursor-default overflow-hidden" (click)="handleLegendClick($index)">

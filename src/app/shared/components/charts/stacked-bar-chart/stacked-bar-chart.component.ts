@@ -4,7 +4,7 @@ import { Chart, ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { CardComponent } from '../../layout/card/card.component';
 import { convertToRgba, convertToTransparent } from '../../../utils/colorHelper';
-import { BarChartDataset, IStackedBarChartFilter, StackedBarChartConfig } from '../../../models/stacked-bar-chart-model';
+import { BarChartDataset, IStackedBarChartFilter, StackedBarChartConfig } from './stacked-bar-chart-model';
 import { LegendComponent } from '../legend/legend/legend.component';
 
 // Register the required Chart.js components
