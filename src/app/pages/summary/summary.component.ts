@@ -8,9 +8,10 @@ import { StackedBarChart } from '../../shared/components/charts/stacked-bar-char
 import { PieChartConfig } from '../../shared/components/charts/pie-chart/pie-chart.model';
 import { MapComponent, MapMarker } from '../../shared/components/charts/map/map.component';
 import { TableComponent } from '../../shared/components/charts/table/table.component';
+import { FilterPanelComponent } from '../../shared/components/layout/filter-panel/filter-panel.component';
 @Component({
     selector: 'app-summary',
-    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent, TableComponent],
+    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent, TableComponent, FilterPanelComponent],
     templateUrl: './summary.component.html',
     styleUrl: './summary.component.scss',
     providers: [SummaryService]
