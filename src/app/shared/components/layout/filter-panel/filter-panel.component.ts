@@ -1,6 +1,7 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { SelectDropdownComponent } from '../../forms/select-dropdown/select-dropdown.component';
+import { IFormResetFilter } from '../../forms/interfaces/ResetFilterInterface';
 
 @Component({
     selector: 'app-filter-panel',
@@ -19,9 +20,9 @@ export class FilterPanelComponent {
         console.log(selected);
     }
 
-    @ViewChildren('resetFilters') resetFilters!: QueryList<any>;
+    @ViewChildren('resetFilters') resetFilters!: QueryList<IFormResetFilter>;
 
     resetDropdown(): void {
-        this.resetFilters.forEach(compoennt => compoennt.reset());
+        this.resetFilters.forEach((compoennt) => compoennt.resetFilters());
     }
 }

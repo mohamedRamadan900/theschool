@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectChangeEvent, MultiSelectModule } from 'primeng/multiselect';
+import { IFormResetFilter } from '../interfaces/ResetFilterInterface';
 
 interface Option {
     value: any;
@@ -16,7 +17,7 @@ interface Option {
     templateUrl: './select-dropdown.component.html',
     styleUrl: './select-dropdown.component.scss'
 })
-export class SelectDropdownComponent {
+export class SelectDropdownComponent implements IFormResetFilter {
     label = input<string>('Filter Options');
     options = input<Option[]>([]);
     allOption: Option = { value: 'All_Options_SelectDropdownComponent', label: 'All' };
@@ -61,8 +62,8 @@ export class SelectDropdownComponent {
         return option.value === this.allOption.value;
     }
 
-    public reset(): void {
-        console.log("RESET")
+    public resetFilters(): void {
+        console.log('RESET');
         this.selectedValues.set([]);
         this.isAllOptionsChecked = false;
         this.selectionChange.emit([]);
