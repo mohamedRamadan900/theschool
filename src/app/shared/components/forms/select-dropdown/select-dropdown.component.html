@@ -5,5 +5,3 @@
 } @else {
     <p-dropdown [options]="optionsWithAll()" [(ngModel)]="selectedValues" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" optionLabel="label" class="w-full"> </p-dropdown>
 }
-
-{{ selectedValues() | json }}
