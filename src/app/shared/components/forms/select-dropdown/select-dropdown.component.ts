@@ -1,4 +1,4 @@
-import { Component, input, Output, EventEmitter, signal } from '@angular/core';
+import { Component, input, Output, EventEmitter, signal, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
@@ -59,5 +59,12 @@ export class SelectDropdownComponent {
 
     private isAllOptionSelected(option: Option): boolean {
         return option.value === this.allOption.value;
+    }
+
+    public reset(): void {
+        console.log("RESET")
+        this.selectedValues.set([]);
+        this.isAllOptionsChecked = false;
+        this.selectionChange.emit([]);
     }
 }

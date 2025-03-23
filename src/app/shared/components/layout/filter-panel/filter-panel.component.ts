@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CardComponent } from '../card/card.component';
 import { SelectDropdownComponent } from '../../forms/select-dropdown/select-dropdown.component';
 
@@ -17,5 +17,11 @@ export class FilterPanelComponent {
 
     onSelectionChange(selected): void {
         console.log(selected);
+    }
+
+    @ViewChildren('resetFilters') resetFilters!: QueryList<any>;
+
+    resetDropdown(): void {
+        this.resetFilters.forEach(compoennt => compoennt.reset());
     }
 }
