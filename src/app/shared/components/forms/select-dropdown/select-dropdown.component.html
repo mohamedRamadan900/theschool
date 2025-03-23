@@ -1,7 +1,9 @@
-<h5 class="text-gray-700 m-0 font-bold mb-2">Filter Options</h5>
-<select class="w-full p-2 border rounded bg-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-    <option value="" disabled selected>All</option>
-    <option value="1">Option 1</option>
-    <option value="2">Option 2</option>
-    <option value="3">Option 3</option>
-</select>
+<h5 class="text-gray-700 m-0 font-bold mb-2">{{ label() }}</h5>
+
+@if (isMultiple()) {
+    <p-multiSelect [options]="optionsWithAll()" [(ngModel)]="selectedValues" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [showToggleAll]="false" [showHeader]="false" optionLabel="label" class="w-full"> </p-multiSelect>
+} @else {
+    <p-dropdown [options]="optionsWithAll()" [(ngModel)]="selectedValues" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" optionLabel="label" class="w-full"> </p-dropdown>
+}
+
+{{ selectedValues() | json }}
