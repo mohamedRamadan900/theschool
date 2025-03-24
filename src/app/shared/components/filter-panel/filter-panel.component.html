@@ -5,6 +5,7 @@
         <app-select-dropdown #selectDropdown #resetFilters [isMultiple]="true" [label]="'Select Items'" [options]="options" [placeholder]="'Select options'" (selectionChange)="onSelectionChange($event)"> </app-select-dropdown>
         <app-select-dropdown #selectDropdown #resetFilters [isMultiple]="true" [label]="'Select Items'" [options]="options" [placeholder]="'Select options'" (selectionChange)="onSelectionChange($event)"> </app-select-dropdown>
 
-        <app-button-toggle-group [options]="options" [multiple]="true" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
+        <app-button-toggle-group [options]="options" [multiple]="true" [(value)]="testValues"></app-button-toggle-group>
+        {{testValues|json}}
     </section>
 </app-card>

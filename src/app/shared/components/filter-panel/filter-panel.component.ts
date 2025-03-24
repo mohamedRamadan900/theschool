@@ -16,7 +16,8 @@ export class FilterPanelComponent {
     options: Option[] = [
         { value: '1', label: 'Option 1' },
         { value: '2', label: 'Option 2' },
-        { value: '3', label: 'Option 3' }
+        { value: '3', label: 'Option 3' },
+        { value: '4', label: 'Option 4' }
     ];
 
     onSelectionChange(selected): void {
@@ -29,5 +30,5 @@ export class FilterPanelComponent {
         this.resetFilters.forEach((compoennt) => compoennt.resetFilters());
     }
 
-    testValues: any;
+    testValues: Option[]=[this.options[0].value,this.options[1].value];
 }
