@@ -1,7 +1,9 @@
-<h5 class="text-gray-700 m-0 font-bold mb-2">{{ label() }}</h5>
+@if (label()) {
+    <h5 class="text-gray-700 m-0 font-bold mb-2">{{ label() }}</h5>
+}
 
 @if (isMultiple()) {
-    <p-multiSelect [options]="optionsWithAll()" [(ngModel)]="selectedValues" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [showToggleAll]="false" [showHeader]="false" optionLabel="label" class="w-full"> </p-multiSelect>
+    <p-multiSelect [options]="options()" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [(ngModel)]="value" optionLabel="label" optionValue="value" class="w-full"> </p-multiSelect>
 } @else {
-    <p-dropdown [options]="optionsWithAll()" [(ngModel)]="selectedValues" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" optionLabel="label" class="w-full"> </p-dropdown>
+    <p-dropdown [options]="options()" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [(ngModel)]="value" optionLabel="label" optionValue="value" class="w-full"> </p-dropdown>
 }
