@@ -41,6 +41,5 @@ export class ButtonToggleGroupComponent {
         } else {
             this.value.set(this.value() === option.value ? null : option.value);
         }
-        this.value.set(this.value());
     }
 }
