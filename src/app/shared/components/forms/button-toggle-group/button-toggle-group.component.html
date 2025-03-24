@@ -1,4 +1,6 @@
-<h5 class="text-gray-700 m-0 font-bold mb-2">{{ label() }}</h5>
+@if (label()) {
+    <h5 class="text-gray-700 m-0 font-bold mb-2">{{ label() }}</h5>
+}
 <div class="flex flex-wrap gap-2">
     @for (option of options(); track $index) {
         <button

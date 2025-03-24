@@ -29,8 +29,6 @@ export class ButtonToggleGroupComponent {
         );
     });
 
-    constructor() {}
-
     toggleOption(option: { value: any }): void {
         if (this.multiple()) {
             const currentValue = this.value() as any[];
