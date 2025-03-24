@@ -1,7 +1,7 @@
 import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { CardComponent } from '../card/card.component';
-import { SelectDropdownComponent } from '../../forms/select-dropdown/select-dropdown.component';
-import { IFormResetFilter } from '../../forms/interfaces/ResetFilterInterface';
+import { CardComponent } from '../layout/card/card.component';
+import { SelectDropdownComponent } from '../forms/select-dropdown/select-dropdown.component';
+import { IFormResetFilter } from '../forms/interfaces/ResetFilterInterface';
 
 @Component({
     selector: 'app-filter-panel',
