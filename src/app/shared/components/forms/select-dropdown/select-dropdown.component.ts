@@ -1,14 +1,14 @@
 import { Component, input, model } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DropdownModule } from 'primeng/dropdown';
+import { SelectModule } from 'primeng/select';
 import { MultiSelectChangeEvent, MultiSelectModule } from 'primeng/multiselect';
 import { Option } from '../../../interfaces/Option';
 
 @Component({
     selector: 'app-select-dropdown',
     standalone: true,
-    imports: [CommonModule, FormsModule, DropdownModule, MultiSelectModule],
+    imports: [CommonModule, FormsModule, SelectModule, MultiSelectModule],
     templateUrl: './select-dropdown.component.html',
     styleUrl: './select-dropdown.component.scss'
 })

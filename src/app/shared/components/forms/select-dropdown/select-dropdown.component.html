@@ -5,5 +5,5 @@
 @if (isMultiple()) {
     <p-multiSelect [options]="options()" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [(ngModel)]="value" optionLabel="label" optionValue="value" class="w-full"> </p-multiSelect>
 } @else {
-    <p-dropdown [options]="options()" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [(ngModel)]="value" optionLabel="label" optionValue="value" class="w-full"> </p-dropdown>
+    <p-select [options]="options()" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [(ngModel)]="value" optionLabel="label" optionValue="value" class="w-full"> </p-select>
 }

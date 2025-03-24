@@ -37,7 +37,7 @@ export class FilterPanelComponent {
     }
 
     testValues: Option[] = [this.options[0].value];
-    testValues2: any[] = [this.options[0].value];
+    testValues2: any[] = [this.options[0].value,this.options[1].value];
 
     testValue: any=this.options[0].value;
 }
