@@ -24,10 +24,10 @@ export class FilterPanelComponent {
         console.log(selected);
     }
 
-    @ViewChildren('resetFilters') resetFilters!: QueryList<IFormResetFilter>;
-
     resetDropdown(): void {
-        this.resetFilters.forEach((compoennt) => compoennt.resetFilters());
+        this.testValue = null;
+        this.testValues= null;
+        this.testValues2 = null;
     }
 
     constructor() {
@@ -37,7 +37,7 @@ export class FilterPanelComponent {
     }
 
     testValues: Option[] = [this.options[0].value];
-    testValues2: any[] = [this.options[0].value,this.options[1].value];
+    testValues2: any[] = [this.options[0].value, this.options[1].value];
 
-    testValue: any=this.options[0].value;
+    testValue: any = this.options[0].value;
 }

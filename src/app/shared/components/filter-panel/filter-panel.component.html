@@ -4,9 +4,7 @@
         <button (click)="resetDropdown()" class="w-full p-2 bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors">Reset Filters</button>
         <app-select-dropdown #selectDropdown [isMultiple]="false" [label]="'Select Item'" [options]="options" [placeholder]="'Select option'" [(value)]="testValue" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
         <app-select-dropdown #selectDropdown [isMultiple]="true" [label]="'Select Items'" [options]="options" [placeholder]="'Select options'" [(value)]="testValues2" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
-        {{testValues2|json}}
 
         <app-button-toggle-group [options]="options" [multiple]="true" [(value)]="testValues" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
-        {{ testValues | json }}
     </section>
 </app-card>
