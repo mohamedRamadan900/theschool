@@ -1,6 +1,11 @@
-<div class="button-toggle-group">
-    @for (option of options; track $index) {
-        <button class="toggle-button" [class.selected]="isSelected(option)" (click)="toggleOption(option)">
+<h5 class="text-gray-700 m-0 font-bold mb-2">{{ label() }}</h5>
+<div class="flex flex-wrap gap-2">
+    @for (option of options(); track $index) {
+        <button 
+            class="flex-1 px-4 py-2 rounded-md border transition-all duration-200 ease-in-out
+                   hover:bg-primary-100 hover:text-black
+                   {{selectedStates()[option.value] ? '!bg-primary !text-white border-primary' : 'bg-white border-gray-300'}}"
+            (click)="toggleOption(option)">
             {{ option.label }}
         </button>
     }

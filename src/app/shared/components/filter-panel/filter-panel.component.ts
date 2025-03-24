@@ -4,10 +4,11 @@ import { SelectDropdownComponent } from '../forms/select-dropdown/select-dropdow
 import { IFormResetFilter } from '../forms/interfaces/ResetFilterInterface';
 import { ButtonToggleGroupComponent } from '../forms/button-toggle-group/button-toggle-group.component';
 import { Option } from '../../interfaces/Option';
+import { JsonPipe } from '@angular/common';
 
 @Component({
     selector: 'app-filter-panel',
-    imports: [CardComponent, SelectDropdownComponent, ButtonToggleGroupComponent],
+    imports: [CardComponent, SelectDropdownComponent, ButtonToggleGroupComponent,JsonPipe],
     templateUrl: './filter-panel.component.html',
     styleUrl: './filter-panel.component.scss'
 })
@@ -27,4 +28,6 @@ export class FilterPanelComponent {
     resetDropdown(): void {
         this.resetFilters.forEach((compoennt) => compoennt.resetFilters());
     }
+
+    testValues: any;
 }
