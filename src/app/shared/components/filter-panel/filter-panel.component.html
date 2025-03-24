@@ -4,5 +4,7 @@
         <button (click)="resetDropdown()" class="w-full p-2 bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors">Reset Filters</button>
         <app-select-dropdown #selectDropdown #resetFilters [isMultiple]="true" [label]="'Select Items'" [options]="options" [placeholder]="'Select options'" (selectionChange)="onSelectionChange($event)"> </app-select-dropdown>
         <app-select-dropdown #selectDropdown #resetFilters [isMultiple]="true" [label]="'Select Items'" [options]="options" [placeholder]="'Select options'" (selectionChange)="onSelectionChange($event)"> </app-select-dropdown>
+
+        <app-button-toggle-group [options]="options" [multiple]="true" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
     </section>
 </app-card>

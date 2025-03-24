@@ -4,11 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectChangeEvent, MultiSelectModule } from 'primeng/multiselect';
 import { IFormResetFilter } from '../interfaces/ResetFilterInterface';
-
-interface Option {
-    value: any;
-    label: string;
-}
+import { Option } from '../../../interfaces/Option';
 
 @Component({
     selector: 'app-select-dropdown',

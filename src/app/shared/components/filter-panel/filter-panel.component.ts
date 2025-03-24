@@ -2,15 +2,17 @@ import { Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angu
 import { CardComponent } from '../layout/card/card.component';
 import { SelectDropdownComponent } from '../forms/select-dropdown/select-dropdown.component';
 import { IFormResetFilter } from '../forms/interfaces/ResetFilterInterface';
+import { ButtonToggleGroupComponent } from '../forms/button-toggle-group/button-toggle-group.component';
+import { Option } from '../../interfaces/Option';
 
 @Component({
     selector: 'app-filter-panel',
-    imports: [CardComponent, SelectDropdownComponent],
+    imports: [CardComponent, SelectDropdownComponent, ButtonToggleGroupComponent],
     templateUrl: './filter-panel.component.html',
     styleUrl: './filter-panel.component.scss'
 })
 export class FilterPanelComponent {
-    options = [
+    options: Option[] = [
         { value: '1', label: 'Option 1' },
         { value: '2', label: 'Option 2' },
         { value: '3', label: 'Option 3' }
