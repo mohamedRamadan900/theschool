@@ -29,9 +29,14 @@ interface NavItem {
 export class AppNavbar {
     navItems: NavItem[] = [
         { label: 'Summary', route: '/summary' },
-        { label: 'Students', route: '/students' },
-        { label: 'Teachers', route: '/teachers' },
-        { label: 'Classes', route: '/classes' },
-        { label: 'Schedule', route: '/schedule' }
+        { label: 'PA/SA & Lates', route: '/pa-sa-lates' },
+        { label: 'Year Attendance', route: '/year-attendance' },
+        { label: 'Tutor Attendance', route: '/tutor-attendance' },
+        { label: 'Behaviour', route: '/behaviour' },
+        { label: 'Student Profile', route: '/student-profile' },
+        { label: 'Staff', route: '/staff' },
+        { label: 'Admissions', route: '/admissions' },
+        { label: 'Governance', route: '/governance' },
+        { label: 'Bespoke Activities', route: '/bespoke-activities' }
     ];
 }
