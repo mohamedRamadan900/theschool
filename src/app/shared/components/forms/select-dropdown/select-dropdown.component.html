@@ -3,7 +3,7 @@
 }
 
 @if (isMultiple()) {
-    <p-multiSelect [options]="options()" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [(ngModel)]="value" optionLabel="label" optionValue="value" class="w-full"> </p-multiSelect>
+    <p-multiSelect [options]="options()" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [(ngModel)]="value" optionLabel="label" optionValue="value" selectedItemsLabel="All" class="w-full"> </p-multiSelect>
 } @else {
     <p-select [options]="options()" [placeholder]="placeholder()" (onChange)="onSelectionChange($event)" [(ngModel)]="value" optionLabel="label" optionValue="value" class="w-full"> </p-select>
 }
