@@ -2,9 +2,16 @@
     <section class="px-5 py-3 flex flex-col gap-5 text-center">
         <h4 class="text-center text-primary">School System</h4>
         <button (click)="resetFilters()" class="w-full p-2 bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors">Reset Filters</button>
-        <app-select-dropdown #selectDropdown [isMultiple]="false" [label]="'Select Item'" [options]="options" [placeholder]="'Select option'" [(value)]="testValue" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
-        <app-select-dropdown #selectDropdown [isMultiple]="true" [label]="'Select Items'" [options]="options" [placeholder]="'Select options'" [(value)]="testValues2" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
+        <app-select-dropdown #selectDropdown [isMultiple]="false" [label]="'Year Groups'" [options]="yearGroupOptions" [placeholder]="'Select option'" [(value)]="selectedYearGroup" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
+        <app-select-dropdown #selectDropdown [isMultiple]="true" [label]="'Tutor Groups'" [options]="tutorGroupOptions" [placeholder]="'Select options'" [(value)]="selectedTutorGroups" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
 
-        <app-button-toggle-group [options]="options" [multiple]="true" [(value)]="testValues" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
+        <app-button-toggle-group [label]="'Gender'" [options]="genderOptions" [multiple]="true" [(value)]="selectedGenders" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
+        <app-button-toggle-group [label]="'FSM'" [options]="fsmOptions" [multiple]="true" [(value)]="selectedFsm" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
+        <app-button-toggle-group [label]="'EAL'" [options]="ealOptions" [multiple]="true" [(value)]="selectedEal" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
+        <app-button-toggle-group n-toggle-group [label]="'Boarder'" [options]="boarderOptions" [multiple]="true" [(value)]="selectedBoarder" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
+        <app-button-toggle-group [label]="'SEN'" [options]="senOptions" [multiple]="true" [(value)]="selectedSen" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
+        <app-button-toggle-group [label]="'Roll'" [options]="rollOptions" [multiple]="true" [(value)]="selectedRoll" (valueChange)="onSelectionChange($event)"></app-button-toggle-group>
+
+        <app-select-dropdown #selectDropdown [isMultiple]="true" [label]="'Student Picker'" [options]="studentOptions" [placeholder]="'Select options'" [(value)]="selectedStudents" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
     </section>
 </app-card>

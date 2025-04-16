@@ -13,11 +13,42 @@ import { JsonPipe } from '@angular/common';
     styleUrl: './filter-panel.component.scss'
 })
 export class FilterPanelComponent {
-    options: Option[] = [
-        { value: '1', label: 'Option 1' },
-        { value: '2', label: 'Option 2' },
-        { value: '3', label: 'Option 3' },
-        { value: '4', label: 'Option 4' }
+    yearGroupOptions: Option[] = [
+        { value: '7', label: 'Year 7' },
+        { value: '8', label: 'Year 8' },
+        { value: '9', label: 'Year 9' },
+        { value: '10', label: 'Year 10' }
+    ];
+
+    tutorGroupOptions: Option[] = [
+        { value: '7A', label: '7A' },
+        { value: '7B', label: '7B' },
+        { value: '8A', label: '8A' },
+        { value: '8B', label: '8B' }
+    ];
+
+    genderOptions: Option[] = [
+        { label: 'Male', value: 'Male' },
+        { label: 'Female', value: 'Female' }
+    ];
+    fsmOptions: Option[] = [{ label: 'False', value: 'false' }];
+    ealOptions: Option[] = [{ label: 'False', value: 'fsalse' }];
+    boarderOptions: Option[] = [
+        { label: '0', value: 0 },
+        { label: '1', value: 1 },
+        { label: '2', value: 2 },
+        { label: '3', value: 3 },
+        { label: 'B', value: 'B' },
+        { label: 'N', value: 'N' }
+    ];
+    senOptions: Option[] = [{ label: 'N', value: 'zN' }];
+    rollOptions: Option[] = [{ label: 'Roll', value: 'Roll' }];
+
+    studentOptions: Option[] = [
+        { value: '1', label: 'John Doe' },
+        { value: '2', label: 'Jane Smith' },
+        { value: '3', label: 'Mike Johnson' },
+        { value: '4', label: 'Sarah Wilson' }
     ];
 
     onSelectionChange(selected): void {
@@ -25,19 +56,30 @@ export class FilterPanelComponent {
     }
 
     resetFilters(): void {
-        this.testValue = null;
-        this.testValues= null;
-        this.testValues2 = null;
+        this.selectedYearGroup = null;
+        this.selectedTutorGroups = null;
+        this.selectedGenders = null;
+        this.selectedFsm = null;
+        this.selectedEal = null;
+        this.selectedBoarder = null;
+        this.selectedSen = null;
+        this.selectedRoll = null;
+        this.selectedStudents = null;
     }
 
     constructor() {
         effect(() => {
-            // console.log(this.testValues)
+            // console.log(this.selectedGenders)
         });
     }
 
-    testValues: Option[] = [this.options[0].value];
-    testValues2: any[] = [this.options[0].value, this.options[1].value];
-
-    testValue: any = this.options[0].value;
+    selectedGenders: string[] = [];
+    selectedTutorGroups: string[] = [];
+    selectedStudents: string[] = [];
+    selectedYearGroup: string | null = null;
+    selectedFsm: string[] = [];
+    selectedEal: string[] = [];
+    selectedBoarder: string[] = [];
+    selectedSen: string[] = [];
+    selectedRoll: string[] = [];
 }
