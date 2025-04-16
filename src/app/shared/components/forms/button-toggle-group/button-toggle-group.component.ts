@@ -31,7 +31,7 @@ export class ButtonToggleGroupComponent {
 
     toggleOption(option: { value: any }): void {
         if (this.multiple()) {
-            const currentValue = this.value() as any[];
+            const currentValue = (this.value() as any[]) || [];
             const index = currentValue.indexOf(option.value);
             if (index === -1) {
                 this.value.set([...currentValue, option.value]);

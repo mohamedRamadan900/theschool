@@ -1,7 +1,7 @@
 <app-card class="block w-full bg-gray-50 h-full">
     <section class="px-5 py-3 flex flex-col gap-5 text-center">
         <h4 class="text-center text-primary">School System</h4>
-        <button (click)="resetDropdown()" class="w-full p-2 bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors">Reset Filters</button>
+        <button (click)="resetFilters()" class="w-full p-2 bg-primary-500 text-white rounded hover:bg-primary-600 transition-colors">Reset Filters</button>
         <app-select-dropdown #selectDropdown [isMultiple]="false" [label]="'Select Item'" [options]="options" [placeholder]="'Select option'" [(value)]="testValue" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
         <app-select-dropdown #selectDropdown [isMultiple]="true" [label]="'Select Items'" [options]="options" [placeholder]="'Select options'" [(value)]="testValues2" (valueChange)="onSelectionChange($event)"> </app-select-dropdown>
 

@@ -24,7 +24,7 @@ export class FilterPanelComponent {
         console.log(selected);
     }
 
-    resetDropdown(): void {
+    resetFilters(): void {
         this.testValue = null;
         this.testValues= null;
         this.testValues2 = null;
