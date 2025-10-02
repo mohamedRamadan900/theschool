@@ -6,6 +6,11 @@ import { YearGroupStats, YearGroupAttendance, SexStats, AttendanceStats, Student
     providedIn: 'root'
 })
 export class SchoolDataMockService {
+
+    
+
+
+
     getStudentsYearGroup(): Observable<YearGroupStats> {
         return of({
             test: { Male: 1 },
