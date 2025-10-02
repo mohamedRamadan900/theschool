@@ -96,3 +96,5 @@ export interface Student {
     inCare: boolean;
     external: boolean;
 }
+
+export type IStudentGender = 'Male' | 'Female';

@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { TableComponent } from '../../../../../../shared/components/charts/table/table.component';
 import { SchoolDataAPIService } from '../../../../services/school-data.service';
 import { Router } from '@angular/router';
+import { SummaryService } from '../../services/summary.service';
 
 @Component({
     selector: 'app-student-directory',
@@ -11,31 +12,33 @@ import { Router } from '@angular/router';
     styleUrl: './student-directory.component.scss'
 })
 export class StudentDirectoryComponent {
-    schoolDataService = inject(SchoolDataAPIService);
+    summaryService = inject(SummaryService);
     router = inject(Router);
 
-    studentDirectoryTable: IStudentDirectoryTable = {
-        columns: [
-            { key: 'id', label: 'ID', sortable: true },
-            { key: 'fullName', label: 'Full Name', sortable: true }
-        ],
-        rows: []
-    };
+    studentDirectoryTable = computed<IStudentDirectoryTable>(() => {
+        let data = this.summaryService.filteredStudents();
+        if (!data || data.length === 0) {
+            data = [];
+        }
+        const rows = data.map((el, index) => ({
+            id: Number(el.pupilId) || index + 1,
+            fullName: el.displayName
+        }));
+        return {
+            columns: [
+                { key: 'id', label: 'ID', sortable: true },
+                { key: 'fullName', label: 'Full Name', sortable: true }
+            ],
+            rows: rows
+        };
+    });
 
     ngOnInit(): void {
-        this.fetchStudentDirectory();
-    }
-
-    fetchStudentDirectory(): void {
-        this.schoolDataService.getStudentsDirectory().subscribe((data) => {
-            if (!data || data.length === 0) return;
-
-            const rows = data.map((el, index) => ({
-                id: Number(el.pupilId) || index + 1,
-                fullName: el.displayName
-            }));
-
-            this.studentDirectoryTable.rows = rows;
+        this.summaryService.fetchStudentDirectory().subscribe((data) => {
+            // this.studentDirectoryTable.set({
+            //     ...this.studentDirectoryTable(),
+            //     rows
+            // });
         });
     }
 
@@ -48,7 +51,7 @@ export class StudentDirectoryComponent {
     }
 }
 
-interface IStudentDirectoryTable {
+export interface IStudentDirectoryTable {
     columns: {
         key: string;
         label: string;

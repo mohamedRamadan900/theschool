@@ -1,8 +1,53 @@
-import { inject, Injectable, signal } from '@angular/core';
-import { SchoolDataAPIService } from '../../../services/school-data.service';
-import { Observable } from 'rxjs';
-import { SexStats } from '../../../models/dashboard.interface';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { IStudentDirectoryTable } from '../components/student-directory/student-directory.component';
+import { IStudentDirectory, SchoolDataAPIService } from '../../../services/school-data.service';
+import { Observable, tap } from 'rxjs';
+import { IStudentGender } from '../../../models/dashboard.interface';
 
 @Injectable()
 export class SummaryService {
+    schoolDataService = inject(SchoolDataAPIService);
+
+    allStudents = signal<IStudentDirectory[]>([]);
+    filters = signal<SummaryDashboardFilters>({});
+
+    filteredStudents = computed(() => {
+        const students = this.allStudents();
+        const { gender, yearGroup } = this.filters();
+        return students.filter((student) => {
+            let match = true;
+            if (gender) match = match && student.gender === gender;
+            if (yearGroup) match = match && student.yearGroup === yearGroup;
+            return match;
+        });
+    });
+
+    fetchStudentDirectory(): Observable<IStudentDirectory[]> {
+        return this.schoolDataService.getStudentsDirectory().pipe(
+            tap((data) => {
+                this.allStudents.set(data);
+            })
+        );
+    }
+
+    /** Set gender filter */
+    setGenderFilter(gender?: IStudentGender) {
+        this.filters.update((f) => ({ ...f, gender: gender ?? undefined }));
+        console.log(this.filters());
+    }
+
+    /** Set yearGroup filter */
+    setYearGroupFilter(yearGroup?: string) {
+        this.filters.update((f) => ({ ...f, yearGroup }));
+    }
+
+    /** Reset all filters */
+    resetFilters() {
+        this.filters.set({});
+    }
+}
+
+export interface SummaryDashboardFilters {
+    gender?: IStudentGender;
+    yearGroup?: string;
 }

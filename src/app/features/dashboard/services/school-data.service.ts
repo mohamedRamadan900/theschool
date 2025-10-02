@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { Student, YearGroupStats, YearGroupAttendance, SexStats, AttendanceStats } from '../models/dashboard.interface';
+import { Student, YearGroupStats, YearGroupAttendance, SexStats, AttendanceStats, IStudentGender } from '../models/dashboard.interface';
 
 @Injectable({
     providedIn: 'root'
@@ -27,16 +27,24 @@ export class SchoolDataAPIService {
         return this.http.get<AttendanceStats>(`${this.baseUrl}/attendance`);
     }
 
-    getStudentsDirectory(yearGroupCode?: string): Observable<{ pupilId: string; displayName: string }[]> {
+    getStudentsDirectory(yearGroupCode?: string): Observable<IStudentDirectory[]> {
         const url = yearGroupCode ? `${this.baseUrl}/students?yearGroupCode=${yearGroupCode}` : `${this.baseUrl}/students`;
 
         return this.http.get<Student[]>(url).pipe(
             map((data) =>
                 data.map((student) => ({
                     pupilId: student.pupilId,
-                    displayName: student.displayName
+                    displayName: student.displayName,
+                    yearGroup: student.yearGroup,
+                    gender: student.gender as IStudentGender
                 }))
             )
         );
     }
+}
+export interface IStudentDirectory {
+    pupilId: string;
+    displayName: string;
+    yearGroup: string;
+    gender: IStudentGender;
 }
