@@ -6,42 +6,23 @@ import { MapComponent, MapMarker } from '../../../../shared/components/charts/ma
 import { TableComponent } from '../../../../shared/components/charts/table/table.component';
 import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel.component';
 import { DashboardNavbarComponent } from '../dashboard-navbar/dashboard-navbar.component';
-import { SchoolDataMockService } from '../../../../shared/services/school-data-mock.service';
-import { SchoolDataService } from '../../../../shared/services/school-data.service';
+import { SchoolDataMockService } from '../../services/school-data-mock.service';
+import { SchoolDataService } from '../../services/school-data.service';
 import { SummaryService } from './services/summary.service';
 import { IStackedBarChartFilter, StackedBarChartConfig } from '../../../../shared/components/charts/stacked-bar-chart/stacked-bar-chart-model';
 import { ChartColorsArray } from '../../../../shared/components/charts/chart-colors';
 import { PieChartConfig } from '../../../../shared/components/charts/pie-chart/pie-chart.model';
+import { StudentsByYearGroupComponent } from './components/students-by-year-group/students-by-year-group.component';
+import { GenderRatioComponent } from './components/gender-ratio/gender-ratio.component';
 
 @Component({
     selector: 'app-summary',
-    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent, TableComponent, FilterPanelComponent, DashboardNavbarComponent],
+    imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent, TableComponent, FilterPanelComponent, DashboardNavbarComponent, StudentsByYearGroupComponent, GenderRatioComponent],
     templateUrl: './summary.component.html',
     styleUrl: './summary.component.scss',
     providers: [SummaryService, { provide: SchoolDataService, useClass: SchoolDataMockService }]
 })
 export class SummaryComponent {
-    studentsByYearGroupBarChart: StackedBarChartConfig = {
-        title: 'Students by Year Group',
-        categories: ['Nursery', 'Reception', '1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th', '9th', '10th', '11th', '12th', '13th'],
-        datasetId: 'Gender',
-        datasets: [
-            {
-                label: 'Female',
-                data: [5, 3, 20, 8, 10, 15, 10, 13, 11, 11, 10, 17, 20, 19, 18],
-                color: ChartColorsArray[0]
-            },
-            {
-                label: 'Male',
-                data: [4, 5, 22, 8, 18, 16, 18, 21, 15, 16, 15, 24, 23, 23, 23],
-                color: ChartColorsArray[1]
-            }
-        ],
-        direction: 'horizontal',
-        showTotals: false,
-        hideDataLabels: false,
-        showLegend: true
-    };
     ethicityBarChart: StackedBarChartConfig = {
         // id: 'ethicityBarChart',
         title: 'Ethicity',
@@ -61,14 +42,6 @@ export class SummaryComponent {
         showLegend: false
     };
 
-    genderRatio: PieChartConfig = {
-        datasetId: 'GenderRatio',
-        title: 'Gender Ratio',
-        data: [300, 450],
-        labels: ['Female', 'Male'],
-        colors: ChartColorsArray,
-        aspectRatio: 1.5
-    };
     boarderRatio: PieChartConfig = {
         title: 'Boarder Ratio',
         datasetId: 'boarderRatio',
@@ -282,10 +255,6 @@ export class SummaryComponent {
         private schoolDataService: SchoolDataService
     ) {}
 
-    onStudentsBarChartFilterChange(filter: IStackedBarChartFilter) {
-        console.log('Filter changed', filter);
-    }
-
     onMapMarkersSelection(marker: any) {
         console.log('Marker clicked:', marker);
     }
@@ -297,9 +266,5 @@ export class SummaryComponent {
         console.log(selected);
     }
 
-    ngOnInit(): void {
-        this.schoolDataService.getStudentsYearGroup().subscribe((data) => {
-            console.log(data);
-        });
-    }
+    ngOnInit(): void {}
 }

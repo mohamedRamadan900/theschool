@@ -6,9 +6,18 @@
         <app-summary-stats></app-summary-stats>
         <hr />
         <section class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 gap-6 [&>*]:min-h-[500px] [&>*]:max-h-[700px] xl:lg:[&>*]:max-h-[900px]">
-            <app-stacked-bar-chart [chartConfig]="studentsByYearGroupBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
+
+            <app-dashboard-students-by-year-group></app-dashboard-students-by-year-group>
 
             <div class="grid-cols-1 gap-4 flex flex-col">
+                <app-dashboard-gender-ratio></app-dashboard-gender-ratio>
+                <!-- <app-stacked-bar-chart class="flex-grow" [chartConfig]="ethicityBarChart"
+                    (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart> -->
+            </div>
+
+
+
+            <!-- <div class="grid-cols-1 gap-4 flex flex-col">
                 <app-pie-chart [pieChartConfig]="genderRatio"></app-pie-chart>
                 <app-stacked-bar-chart class="flex-grow" [chartConfig]="ethicityBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
             </div>
@@ -19,7 +28,7 @@
             <div class="grid grid-cols-1 gap-4 lg:col-span-1 xl:col-span-2">
                 <app-map title="Student Distributions" [markers]="mapMarkersWithAddress" (onMarkersSelect)="onMapMarkersSelection($event)"></app-map>
                 <app-pie-chart [pieChartConfig]="boarderRatio"></app-pie-chart>
-            </div>
+            </div> -->
         </section>
     </section>
 </main>

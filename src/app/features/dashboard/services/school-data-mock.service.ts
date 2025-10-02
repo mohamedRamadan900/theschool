@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { YearGroupStats, YearGroupAttendance, SexStats, AttendanceStats, Student } from '../models/dashboard.interface';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SchoolDataMockService {
-    constructor() {}
-
-    getStudentsYearGroup(): Observable<any> {
+    getStudentsYearGroup(): Observable<YearGroupStats> {
         return of({
             test: { Male: 1 },
             'Groep 7': { Female: 4 },
@@ -35,7 +34,7 @@ export class SchoolDataMockService {
         });
     }
 
-    getStudentsAttendanceYearGroup(): Observable<any> {
+    getStudentsAttendanceYearGroup(): Observable<YearGroupAttendance> {
         return of({
             '011': 32,
             '022': 200,
@@ -48,14 +47,14 @@ export class SchoolDataMockService {
         });
     }
 
-    getSexStats(): Observable<any> {
+    getSexStats(): Observable<SexStats> {
         return of({
             Male: 388,
             Female: 366
         });
     }
 
-    getAttendance(): Observable<any> {
+    getAttendance(): Observable<AttendanceStats> {
         return of({
             ABSENT: 19,
             PARTIAL: 49,
@@ -63,7 +62,7 @@ export class SchoolDataMockService {
         });
     }
 
-    getStudentsByYearGroupCode(yearGroupCode: string): Observable<any[]> {
+    getStudentsByYearGroupCode(yearGroupCode: string): Observable<Student[]> {
         return of([
             {
                 schoolId: 'CL1-NCBIS',
