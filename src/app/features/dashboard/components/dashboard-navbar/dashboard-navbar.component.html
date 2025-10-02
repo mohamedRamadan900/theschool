@@ -1,0 +1,12 @@
+<div class="flex flex-wrap gap-4 mb-12 justify-start">
+    @for (item of navItems; track $index) {
+        <button
+            [routerLink]="item.route"
+            routerLinkActive="bg-primary text-white"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="text-primary border-primary border-2 py-3 px-4 rounded whitespace-nowrap hover:bg-primary hover:text-white transition-all"
+        >
+            {{ item.label }}
+        </button>
+    }
+</div>
