@@ -12,6 +12,7 @@ export class SummaryService {
     filters = signal<SummaryDashboardFilters>({});
 
     filteredStudents = computed(() => {
+        console.log(this.filters());
         const students = this.allStudents();
         const { gender, yearGroup } = this.filters();
         return students.filter((student) => {
@@ -33,12 +34,11 @@ export class SummaryService {
     /** Set gender filter */
     setGenderFilter(gender?: IStudentGender) {
         this.filters.update((f) => ({ ...f, gender: gender ?? undefined }));
-        console.log(this.filters());
     }
 
     /** Set yearGroup filter */
     setYearGroupFilter(yearGroup?: string) {
-        this.filters.update((f) => ({ ...f, yearGroup }));
+        this.filters.update((f) => ({ ...f, yearGroup: yearGroup ?? undefined }));
     }
 
     /** Reset all filters */

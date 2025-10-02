@@ -211,7 +211,6 @@ export class StackedBarChart implements OnInit, OnChanges {
 
         onClick: (event, elements, chart) => {
             if (this.chartConfig.readOnly) return;
-            debugger
             this.handleChartClick(event, elements, chart);
         }
     };
