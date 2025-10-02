@@ -9,13 +9,15 @@ import { PieChartConfig } from '../../shared/components/charts/pie-chart/pie-cha
 import { MapComponent, MapMarker } from '../../shared/components/charts/map/map.component';
 import { TableComponent } from '../../shared/components/charts/table/table.component';
 import { FilterPanelComponent } from '../../shared/components/filter-panel/filter-panel.component';
-import { AppNavbar } from "../../layout/component/app.navbar";
+import { AppNavbar } from '../../layout/component/app.navbar';
+import { SchoolDataService } from '../../shared/services/school-data.service';
+import { SchoolDataMockService } from '../../shared/services/school-data-mock.service';
 @Component({
     selector: 'app-summary',
     imports: [SummaryStatsComponent, StackedBarChart, PieChartComponent, MapComponent, TableComponent, FilterPanelComponent, AppNavbar],
     templateUrl: './summary.component.html',
     styleUrl: './summary.component.scss',
-    providers: [SummaryService]
+    providers: [SummaryService, { provide: SchoolDataService, useClass: SchoolDataMockService }]
 })
 export class SummaryComponent {
     studentsByYearGroupBarChart: StackedBarChartConfig = {
@@ -274,7 +276,10 @@ export class SummaryComponent {
         ]
     };
 
-    constructor(private summaryService: SummaryService) {}
+    constructor(
+        private summaryService: SummaryService,
+        private schoolDataService: SchoolDataService
+    ) {}
 
     onStudentsBarChartFilterChange(filter: IStackedBarChartFilter) {
         console.log('Filter changed', filter);
@@ -289,5 +294,11 @@ export class SummaryComponent {
     }
     onTableSelectionReset(selected: any): void {
         console.log(selected);
+    }
+
+    ngOnInit(): void {
+        this.schoolDataService.getStudentsYearGroup().subscribe((data) => {
+            console.log(data);
+        });
     }
 }
