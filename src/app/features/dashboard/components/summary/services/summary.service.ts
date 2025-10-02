@@ -1,21 +1,36 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { SchoolDataService } from '../../../services/school-data.service';
 import { Observable } from 'rxjs';
+import { SexStats } from '../../../models/dashboard.interface';
 
 @Injectable()
 export class SummaryService {
     schoolDataService = inject(SchoolDataService);
+    totalStudentsNumber = signal<number>(0);
+    totalStudentsAttendance = signal<string>('');
+    totalStudentsGender = signal<SexStats>(null);
 
-    totalStudentsNumber: number = null;
+    constructor() {
+        this.getTotalStudentsNumber();
+        this.getTotalAttendance();
+    }
 
-    getTotalStudentNumber(): void {
+    private getTotalStudentsNumber(): void {
         this.schoolDataService.getSexStats().subscribe((data) => {
-            this.totalStudentsNumber = data.Male + data.Female;
-            console.log(this.totalStudentsNumber);
+            this.totalStudentsGender.set({
+                Male: data.Male,
+                Female: data.Female
+            });
+            const totalStudentsNumber = data.Male + data.Female;
+            this.totalStudentsNumber.set(totalStudentsNumber);
         });
     }
 
-    constructor() {
-        this.getTotalStudentNumber();
+    private getTotalAttendance(): void {
+        this.schoolDataService.getAttendance().subscribe((data) => {
+            const totalAttendancePercentage = (data.ABSENT + data.PARTIAL) / data.FULL;
+            const totalAttendance = (totalAttendancePercentage * 100).toFixed(2);
+            this.totalStudentsAttendance.set(totalAttendance + '%');
+        });
     }
 }
