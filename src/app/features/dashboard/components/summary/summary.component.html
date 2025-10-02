@@ -1,8 +1,8 @@
 <main class="h-full flex flex-col md:flex-row gap-x-10 gap-y-4">
-    <aside class="min-w-[250px] md:w-[15%] shrink-0"><app-filter-panel></app-filter-panel></aside>
+    <!-- <aside class="min-w-[250px] md:w-[15%] shrink-0"><app-filter-panel></app-filter-panel></aside> -->
 
     <section class="flex-1 flex flex-col">
-        <app-dashboard-navbar></app-dashboard-navbar>
+        <!-- <app-dashboard-navbar></app-dashboard-navbar> -->
         <app-summary-stats></app-summary-stats>
         <hr />
         <section class="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4  gap-6 [&>*]:min-h-[500px] [&>*]:max-h-[700px] xl:lg:[&>*]:max-h-[900px]">
@@ -20,12 +20,11 @@
             <!-- <div class="grid-cols-1 gap-4 flex flex-col">
                 <app-pie-chart [pieChartConfig]="genderRatio"></app-pie-chart>
                 <app-stacked-bar-chart class="flex-grow" [chartConfig]="ethicityBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
-            </div>
+            </div> -->
 
-            <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
-            <app-table [tableData]="studentDirectoryTable" title="Student Directory" (onSelection)="onTableSelection($event)" (onSelectionReset)="onTableSelectionReset($event)"></app-table>
-
-            <div class="grid grid-cols-1 gap-4 lg:col-span-1 xl:col-span-2">
+            <!-- <app-stacked-bar-chart [chartConfig]="attendanceByYear" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart> -->
+            <app-student-directory></app-student-directory>
+            <!-- <div class="grid grid-cols-1 gap-4 lg:col-span-1 xl:col-span-2">
                 <app-map title="Student Distributions" [markers]="mapMarkersWithAddress" (onMarkersSelect)="onMapMarkersSelection($event)"></app-map>
                 <app-pie-chart [pieChartConfig]="boarderRatio"></app-pie-chart>
             </div> -->

@@ -1,5 +1,5 @@
 <div class="flex flex-row w-full gap-5">
-    @for (cardData of statsCards; track $index) {
+    @for (cardData of statsCards(); track $index) {
         <app-stats-card  class="flex-1"  [primaryValue]="cardData.primaryValue" [primaryLabel]="cardData.primaryLabel" [secondaryValue]="cardData.secondaryValue" [highlight]="cardData.highlight"> </app-stats-card>
     }
 </div>

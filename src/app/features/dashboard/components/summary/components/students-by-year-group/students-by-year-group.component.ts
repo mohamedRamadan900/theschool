@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { IStackedBarChartFilter, StackedBarChartConfig } from '../../../../../../shared/components/charts/stacked-bar-chart/stacked-bar-chart-model';
 import { ChartColorsArray } from '../../../../../../shared/components/charts/chart-colors';
 import { StackedBarChart } from '../../../../../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
-import { SchoolDataService } from '../../../../services/school-data.service';
+import { SchoolDataAPIService } from '../../../../services/school-data.service';
 import { YearGroupStats } from '../../../../models/dashboard.interface';
 
 @Component({
@@ -12,7 +12,7 @@ import { YearGroupStats } from '../../../../models/dashboard.interface';
     styleUrl: './students-by-year-group.component.scss'
 })
 export class StudentsByYearGroupComponent implements OnInit {
-    private schoolDataService = inject(SchoolDataService);
+    private schoolDataService = inject(SchoolDataAPIService);
     studentsByYearGroupAndSexBarChart: StackedBarChartConfig;
 
     ngOnInit(): void {
