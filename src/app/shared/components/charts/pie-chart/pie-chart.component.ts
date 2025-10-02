@@ -137,7 +137,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
                     },
                     tooltip: {
                         callbacks: {
-                            title: (context) =>this.title,
+                            title: (context) => this.title,
                             label: (context) => {
                                 const label = context.label || '';
                                 const value = context.parsed;
@@ -174,6 +174,7 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
                     }
                 },
                 onClick: (event, elements, chart) => {
+                    if (this.pieChartConfig().readOnly) return;
                     this.handleChartClick(event, elements, chart);
                 }
             },

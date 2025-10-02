@@ -13,19 +13,20 @@ import { YearGroupStats } from '../../../../models/dashboard.interface';
 })
 export class StudentsByYearGroupComponent implements OnInit {
     private schoolDataService = inject(SchoolDataService);
+    studentsByYearGroupAndSexBarChart: StackedBarChartConfig;
 
     ngOnInit(): void {
         this.schoolDataService.getStudentsYearGroup().subscribe((data) => {
-            this.studentsByYearGroupBarChart = this.prepareData(data);
+            this.studentsByYearGroupAndSexBarChart = this.prepareChartConfig(data);
         });
     }
 
-    private prepareData(yearGroupStats: YearGroupStats): StackedBarChartConfig {
+    private prepareChartConfig(yearGroupStats: YearGroupStats): StackedBarChartConfig {
         const categories = Object.keys(yearGroupStats);
         const maleData: number[] = [];
         const femaleData: number[] = [];
 
-        categories.forEach(yearGroup => {
+        categories.forEach((yearGroup) => {
             const stats = yearGroupStats[yearGroup];
             maleData.push(stats.Male || 0);
             femaleData.push(stats.Female || 0);
@@ -37,33 +38,23 @@ export class StudentsByYearGroupComponent implements OnInit {
             datasetId: 'Gender',
             datasets: [
                 {
-                    label: 'Female',
-                    data: femaleData,
+                    label: 'Male',
+                    data: maleData,
                     color: ChartColorsArray[0]
                 },
                 {
-                    label: 'Male',
-                    data: maleData,
+                    label: 'Female',
+                    data: femaleData,
                     color: ChartColorsArray[1]
                 }
             ],
             direction: 'horizontal',
             showTotals: false,
             hideDataLabels: false,
-            showLegend: true
+            showLegend: true,
+            readOnly: true
         };
     }
-
-    studentsByYearGroupBarChart: StackedBarChartConfig = {
-        title: 'Students by Year Group',
-        categories: [],
-        datasetId: 'Gender',
-        datasets: [],
-        direction: 'horizontal',
-        showTotals: false,
-        hideDataLabels: false,
-        showLegend: true
-    };
 
     onStudentsBarChartFilterChange(filter: IStackedBarChartFilter) {
         console.log('Filter changed', filter);

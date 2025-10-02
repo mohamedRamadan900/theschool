@@ -172,7 +172,7 @@ export class StackedBarChart implements OnInit, OnChanges {
             },
             tooltip: {
                 callbacks: {
-                    title: (context) =>  context[0]?.dataset.label,
+                    title: (context) => context[0]?.dataset.label,
                     label: (context) => {
                         const label = context.label || '';
                         const value = context.parsed.x || context.parsed.y;
@@ -210,6 +210,8 @@ export class StackedBarChart implements OnInit, OnChanges {
         },
 
         onClick: (event, elements, chart) => {
+            if (this.chartConfig.readOnly) return;
+            debugger
             this.handleChartClick(event, elements, chart);
         }
     };

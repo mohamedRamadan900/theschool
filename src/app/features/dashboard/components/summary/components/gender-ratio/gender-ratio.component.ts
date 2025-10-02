@@ -21,10 +21,11 @@ export class GenderRatioComponent implements OnInit {
             this.genderRatioChartConfig = {
                 datasetId: 'GenderRatio',
                 title: 'Gender Ratio',
-                data: [sexStats.Female, sexStats.Male],
-                labels: ['Female', 'Male'],
+                data: [sexStats.Male, sexStats.Female],
+                labels: ['Male', 'Female'],
                 colors: ChartColorsArray,
-                aspectRatio: 1.5
+                aspectRatio: 1.5,
+                readOnly: true
             };
         });
     }

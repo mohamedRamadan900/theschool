@@ -9,6 +9,7 @@ export interface StackedBarChartConfig {
     showTotals?: boolean;
     isDataPercentage?: boolean;
     showLegend?: boolean;
+    readOnly?: boolean;
 }
 export interface BarChartDataset {
     label: string;

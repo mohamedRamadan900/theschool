@@ -6,6 +6,7 @@ export interface PieChartConfig {
     colors?: string[];
     hideDataLables?: boolean;
     aspectRatio?: number;
+    readOnly?: boolean;
 }
 export interface PieChartDataItem {
     label: string;
