@@ -26,7 +26,8 @@ export class GenderRatioComponent implements OnInit {
                 data: [sexStats.Male, sexStats.Female],
                 labels: ['Male', 'Female'],
                 colors: ChartColorsArray,
-                aspectRatio: 1.5
+                aspectRatio: 1.5,
+                readOnly:true
             };
         });
     }

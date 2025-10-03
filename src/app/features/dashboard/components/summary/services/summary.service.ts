@@ -2,7 +2,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { IStudentDirectoryTable } from '../components/student-directory/student-directory.component';
 import { IStudentDirectory, SchoolDataAPIService } from '../../../services/school-data.service';
 import { Observable, tap } from 'rxjs';
-import { IStudentGender } from '../../../models/dashboard.interface';
+import { IStudentGender, SexStats } from '../../../models/dashboard.interface';
 
 @Injectable()
 export class SummaryService {
@@ -11,7 +11,7 @@ export class SummaryService {
     allStudents = signal<IStudentDirectory[]>([]);
     filters = signal<SummaryDashboardFilters>({});
 
-    filteredStudents = computed(() => {
+    filteredStudentDirectory = computed(() => {
         console.log(this.filters());
         const students = this.allStudents();
         const { gender, yearGroup } = this.filters();
@@ -23,6 +23,8 @@ export class SummaryService {
         });
     });
 
+
+
     fetchStudentDirectory(): Observable<IStudentDirectory[]> {
         return this.schoolDataService.getStudentsDirectory().pipe(
             tap((data) => {
@@ -30,6 +32,15 @@ export class SummaryService {
             })
         );
     }
+
+    // fetchSexStats(): Observable<SexStats>{
+    //     return this.schoolDataService.getSexStats().pipe(
+    //         tap((data) => {
+    //             console.log(data);
+    //         })
+    //     );
+    // }
+
 
     /** Set gender filter */
     setGenderFilter(gender?: IStudentGender) {

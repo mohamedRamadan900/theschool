@@ -16,7 +16,7 @@ export class StudentDirectoryComponent {
     router = inject(Router);
 
     studentDirectoryTable = computed<IStudentDirectoryTable>(() => {
-        let data = this.summaryService.filteredStudents();
+        let data = this.summaryService.filteredStudentDirectory();
         if (!data || data.length === 0) {
             data = [];
         }
