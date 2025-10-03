@@ -1,9 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ChartColorsArray } from '../../../../../../shared/components/charts/chart-colors';
 import { PieChartConfig } from '../../../../../../shared/components/charts/pie-chart/pie-chart.model';
-import { PieChartComponent } from '../../../../../../shared/components/charts/pie-chart/pie-chart.component';
-import { SchoolDataService } from '../../../../services/school-data.service';
+import { IEventPieChartClick, PieChartComponent } from '../../../../../../shared/components/charts/pie-chart/pie-chart.component';
+import { SchoolDataAPIService } from '../../../../services/school-data.service';
 import { SexStats } from '../../../../models/dashboard.interface';
+import { SummaryService } from '../../services/summary.service';
 
 @Component({
     selector: 'app-dashboard-gender-ratio',
@@ -12,7 +13,8 @@ import { SexStats } from '../../../../models/dashboard.interface';
     styleUrl: './gender-ratio.component.scss'
 })
 export class GenderRatioComponent implements OnInit {
-    private schoolDataService = inject(SchoolDataService);
+    private schoolDataService = inject(SchoolDataAPIService);
+    private summaryService = inject(SummaryService);
 
     genderRatioChartConfig: PieChartConfig;
 
@@ -25,8 +27,17 @@ export class GenderRatioComponent implements OnInit {
                 labels: ['Male', 'Female'],
                 colors: ChartColorsArray,
                 aspectRatio: 1.5,
-                readOnly: true
+                readOnly:true
             };
         });
+    }
+
+    onPieChartClick(event: IEventPieChartClick): void {
+        if (event.type === 'reset') {
+            this.summaryService.setGenderFilter();
+        }
+        if (event.type === 'selectDataset') {
+            this.summaryService.setGenderFilter(event.dataset.index === 0 ? 'Male' : 'Female');
+        }
     }
 }

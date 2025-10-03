@@ -2,8 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { IStackedBarChartFilter, StackedBarChartConfig } from '../../../../../../shared/components/charts/stacked-bar-chart/stacked-bar-chart-model';
 import { ChartColorsArray } from '../../../../../../shared/components/charts/chart-colors';
 import { StackedBarChart } from '../../../../../../shared/components/charts/stacked-bar-chart/stacked-bar-chart.component';
-import { SchoolDataService } from '../../../../services/school-data.service';
+import { SchoolDataAPIService } from '../../../../services/school-data.service';
 import { YearGroupStats } from '../../../../models/dashboard.interface';
+import { SummaryService } from '../../services/summary.service';
 
 @Component({
     selector: 'app-dashboard-students-by-year-group',
@@ -12,7 +13,9 @@ import { YearGroupStats } from '../../../../models/dashboard.interface';
     styleUrl: './students-by-year-group.component.scss'
 })
 export class StudentsByYearGroupComponent implements OnInit {
-    private schoolDataService = inject(SchoolDataService);
+    private schoolDataService = inject(SchoolDataAPIService);
+    private summaryService = inject(SummaryService);
+
     studentsByYearGroupAndSexBarChart: StackedBarChartConfig;
 
     ngOnInit(): void {
@@ -51,12 +54,29 @@ export class StudentsByYearGroupComponent implements OnInit {
             direction: 'horizontal',
             showTotals: false,
             hideDataLabels: false,
-            showLegend: true,
-            readOnly: true
+            showLegend: true
+            // readOnly: true
         };
     }
 
     onStudentsBarChartFilterChange(filter: IStackedBarChartFilter) {
-        console.log('Filter changed', filter);
+        if (filter.filterType === 'reset') {
+            this.summaryService.setYearGroupFilter(null);
+            this.summaryService.setGenderFilter(null);
+        }
+        if (filter.filterType === 'category') {
+            const yearGroup = filter?.data['categoryLabel'];
+            this.summaryService.setYearGroupFilter(yearGroup);
+        }
+        if (filter.filterType === 'series') {
+            const gender = filter?.data['datasetLabel'];
+            this.summaryService.setGenderFilter(gender);
+        }
+        if (filter.filterType === 'dataPoint') {
+            const yearGroup = filter?.data['categoryId'];
+            const gender = filter?.data['datasetLabel'];
+            this.summaryService.setGenderFilter(gender);
+            this.summaryService.setYearGroupFilter(yearGroup);
+        }
     }
 }

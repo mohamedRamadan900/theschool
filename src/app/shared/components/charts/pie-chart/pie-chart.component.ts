@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, OnChanges, OnDestroy, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef, OnInit, input } from '@angular/core';
+import { Component, Input, AfterViewInit, OnChanges, OnDestroy, SimpleChanges, ElementRef, ViewChild, ChangeDetectorRef, OnInit, input, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartConfiguration, ChartType, registerables } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
@@ -20,7 +20,7 @@ Chart.register(...registerables, ChartDataLabels);
 })
 export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
     @ViewChild('chartCanvas') chartCanvas!: ElementRef<HTMLCanvasElement>;
-
+    onChartClick = output<IEventPieChartClick>();
     pieChartConfig = input<PieChartConfig | null>(null);
     // Simple data inputs
     labels: string[] = [];
@@ -245,10 +245,14 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         const value = this.data[index];
 
         // Log the clicked slice's data
-        console.log(`Clicked: ${label}: ${value}`);
+        // console.log(`Clicked: ${label}: ${value}`);
+
+        this.onChartClick.emit({ type: 'selectDataset', dataset: { index, label, value } });
 
         // If clicking the same slice again, reset colors
         if (this.selectedIndex === index) {
+            this.onChartClick.emit({ type: 'reset' });
+
             this.resetColors();
         } else {
             // Otherwise highlight the clicked slice
@@ -389,4 +393,8 @@ export class PieChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
             color: this.colors[index] || '#ccc'
         }));
     }
+}
+export interface IEventPieChartClick {
+    type: 'reset' | 'selectDataset';
+    dataset?: { index?: number; label?: string; value?: number };
 }
