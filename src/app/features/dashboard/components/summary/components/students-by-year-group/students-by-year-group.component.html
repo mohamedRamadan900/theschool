@@ -1,1 +1,4 @@
-<app-stacked-bar-chart [chartConfig]="studentsByYearGroupAndSexBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
+<div class="mb-3">
+    <p-datepicker class="grid" [(ngModel)]="date" [iconDisplay]="'input'" [showIcon]="true" inputId="icondisplay" />
+</div>
+<app-stacked-bar-chart class="flex-1" [chartConfig]="studentsByYearGroupAndSexBarChart" (onFilterChange)="onStudentsBarChartFilterChange($event)"></app-stacked-bar-chart>
